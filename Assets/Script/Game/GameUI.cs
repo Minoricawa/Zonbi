@@ -11,15 +11,13 @@ public class GameUI : MonoBehaviour
 
     // 以下メンバ変数定義.
     string ui_log = null;
+    
 
-
-    // Start is called before the first frame update
     void Start()
     {
         
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         ui_log = NotesContoller.TimingLog;
