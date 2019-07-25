@@ -29,7 +29,7 @@ public class Select : MonoBehaviour
         sound_length = sound_paneru_list.Count; 
         SetPosition();
         SetData();
-        //game_ui.SetActive(false);
+        game_ui.SetActive(false);
     }
 
     private void Update() // 毎フレーム実行
@@ -39,8 +39,7 @@ public class Select : MonoBehaviour
         {
             return;
         }
-
-
+        
         float cam_rot_y = cam.gameObject.transform.rotation.eulerAngles.y + 90;
         float cam_rot_x = cam.gameObject.transform.rotation.eulerAngles.x;
         cam_rot_y = cam_rot_y % 360;
@@ -52,8 +51,8 @@ public class Select : MonoBehaviour
             return;
         }
 
-
-        //出現させる範囲設定
+        
+        // 出現させる範囲設定
         int rot = max_rot / sound_length;  // 60;
         for (var i = 0; i < sound_length; i++)
         {
@@ -65,7 +64,7 @@ public class Select : MonoBehaviour
             float maxrot = trot + active_rot / 2;
             
 
-            //カメラの向きにより出現
+            // カメラの向きにより出現
             if (minrot < cam_rot_y && maxrot > cam_rot_y && (cam_rot_x > 360 - 30 || cam_rot_x < 30))
             {
                 paneru.FadeIn();
@@ -84,7 +83,7 @@ public class Select : MonoBehaviour
 
 
 
-    //パネルを扇状に配置
+    // パネルを扇状に配置
     void SetPosition()
     {
         int rot = max_rot / sound_paneru_list.Count;  // 60;
@@ -105,7 +104,7 @@ public class Select : MonoBehaviour
     }
     
 
-    //パネルにID付与
+    // パネルにID付与
     void SetData()
     {
         for (var i = 0; i < sound_paneru_list.Count; i++)
@@ -113,26 +112,27 @@ public class Select : MonoBehaviour
             Paneru paneru = sound_paneru_list[i];
             paneru.id = i;
             paneru.click_callback = ClickPaneru;
-
         }
     }
 
-    //クリックしたパネルのidをプレイ
+    // クリックしたパネルのidをプレイ、ゲームUI表示
     public void ClickPaneru(int id)
     {
         canvas.GetComponent<NotesContoller>().Play(id);
         HidePaneruList();
+
+        game_ui.SetActive(true);
     }
     
 
 
-    // すべてのパネルを消す
+    // すべての曲パネルを消す
     public void HidePaneruList()
     {
         paneru_container.SetActive(false);
     }
 
-    //すべてのパネルを出す
+    // すべての曲パネルを出す
     public void OpenPaneruList()
     {
         paneru_container.SetActive(true);
@@ -140,7 +140,7 @@ public class Select : MonoBehaviour
 
   
 
-    //パネルがアクティブかつプレイ開始していなければ、任意のaudioリストを再生
+    // パネルがアクティブかつプレイ開始していなければ、任意のaudioリストを再生
     void SetActiveSound(int index, bool active)
     {
         GameObject sound_paneru = sound_paneru_list[index].gameObject;
@@ -163,19 +163,15 @@ public class Select : MonoBehaviour
             }
         }
     }
-
-
-
-    void Game()
+    
+    // ゲームUI非表示
+    public void GameUISet()
     {
-        if (canvas.GetComponent<NotesContoller>().IsPlaying == true)
-        {
-            game_ui.SetActive(true);
-        }
+        game_ui.SetActive(false);
     }
 
 
-    //戻るボタンでタイトルへ
+    // 戻るボタンでタイトルへ
     public void PushReturnButton()
     {
         SceneManager.LoadScene("Scene_title");

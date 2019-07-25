@@ -23,6 +23,7 @@ public class Paneru : MonoBehaviour
     public System.Action<int> click_callback = null;
     
 
+
     void Start()
     {
         canvas = GetComponent<CanvasGroup>();
@@ -31,7 +32,7 @@ public class Paneru : MonoBehaviour
 
 
 
-    //パネルに記載する情報をjsonから拝借、表示
+    // パネルに記載する情報をjsonから拝借、表示
     void LoadChart()
     {
         string json_text = Resources.Load<TextAsset>(json_path).ToString();
@@ -44,8 +45,8 @@ public class Paneru : MonoBehaviour
     }
 
 
-
-    //フェードをリセット
+    
+    // フェードをリセット
     void RsetFade()
     {
         if (fadein != null)
@@ -62,7 +63,7 @@ public class Paneru : MonoBehaviour
     }
 
 
-   //フェード
+   // フェード
     public void FadeIn(float speed = 5)
     {
         if (canvas == null) return;
@@ -100,13 +101,14 @@ public class Paneru : MonoBehaviour
     }
 
 
-    //SelectのClickPaneru発動
+    // SelectのClickPaneru発動
     public void Click()
     {
         if (click_callback != null)
         {
             click_callback(id);
         }
+       
     }
 
 

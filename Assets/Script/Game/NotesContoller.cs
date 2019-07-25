@@ -70,7 +70,7 @@ public class NotesContoller : MonoBehaviour
         beat_range = 80;
 
 
-        //ノーツを出現
+        // ノーツを出現
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => notes.Count > go_index)
@@ -81,7 +81,7 @@ public class NotesContoller : MonoBehaviour
                 go_index++;
             });
 
-        //曲が終わったらパネル復活
+        // 曲が終わったらパネル復活
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => Time.time * 1000 - play_time >= end)
@@ -91,10 +91,11 @@ public class NotesContoller : MonoBehaviour
                 {
                     is_playing = false;
                     this.GetComponent<Select>().OpenPaneruList();
+                    this.GetComponent<Select>().GameUISet();
                 }
             });
 
-        //プレイ中、ボタンを押したタイムを見る
+        // プレイ中、ボタンを押したタイムを見る
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => Input.GetMouseButtonDown(0))
@@ -112,7 +113,7 @@ public class NotesContoller : MonoBehaviour
 
     
 
-    //jsonからデータを拝借、ノーツを生成しリストへ
+    // jsonからデータを拝借、ノーツを生成しリストへ
     void LoadChart(int id)
     {
         go_index = 0;
@@ -133,7 +134,7 @@ public class NotesContoller : MonoBehaviour
         {
             float timing = float.Parse(note["timing"].Get<string>());
             GameObject noteNew;
-            float xrandam = (float)r.Next(-20, 20) / 10; //ブレ幅
+            float xrandam = (float)r.Next(-20, 20) / 10; // ブレ幅
             noteNew = Instantiate(zombie_notes, new Vector3(spawn_point.position.x + xrandam, spawn_point.position.y, spawn_point.position.z), Quaternion.Euler(0, 180, 0));
             SetLean(noteNew, note["lean"].Get<string>());
             noteNew.GetComponent<NoteBase>().SetParameter(timing);
@@ -148,7 +149,7 @@ public class NotesContoller : MonoBehaviour
     }
 
 
-    //ノーツのレーン分け
+    // ノーツのレーン分け
     void SetLean(GameObject note, string lean)
     {
         switch (lean)
@@ -169,7 +170,7 @@ public class NotesContoller : MonoBehaviour
     }
 
 
-    //開始フラグを立て、値を管理。曲再生。
+    // 開始フラグを立て、値を管理。曲再生。
     public void Play(int id)
     {
         LoadChart(id);
@@ -181,7 +182,7 @@ public class NotesContoller : MonoBehaviour
 
 
 
-    //ノーツ登場
+    // ノーツ登場
     void NotesShow(GameObject notes)
     {
         notes.transform.localPosition = new Vector3(notes.transform.localPosition.x, 0, notes.transform.localPosition.z);
@@ -189,13 +190,13 @@ public class NotesContoller : MonoBehaviour
         anim.SetBool("advent", true);
     }
 
-    //ノーツを見えないところに溜める
+    // ノーツを見えないところに溜める
     void NotesHide(GameObject notes)
     {
         notes.transform.localPosition = new Vector3(notes.transform.localPosition.x, -1000, notes.transform.localPosition.z);
     }
 
-    //timingと一番近いタイミングのノーツを探す
+    // timingと一番近いタイミングのノーツを探す
     void Beat(float timing)
     {
         
@@ -221,7 +222,7 @@ public class NotesContoller : MonoBehaviour
             if (minDiff < beat_range)
             {
                 note_timings[minDiffIndex] = -1;
-                notes[minDiffIndex].SendMessage("OnHitBullet");  //NotesBase.OnHitBullet();
+                notes[minDiffIndex].SendMessage("OnHitBullet");  // NotesBase.OnHitBullet();
                 // Debug.Log("GOOD");
                 log = "good";
                 combo++;
