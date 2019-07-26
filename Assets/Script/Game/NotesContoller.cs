@@ -61,9 +61,9 @@ public class NotesContoller : MonoBehaviour
 
         music = this.GetComponent<AudioSource>();
 
-        distance = Mathf.Abs(beat_point.position.z - spawn_point.position.z); //距離
-        distance = Mathf.Abs(beat_point.position.z - spawn_point.position.z); //距離
-        during = 3 * 1000;  //かかる時間
+        distance = Mathf.Abs(beat_point.position.z - spawn_point.position.z); // 距離
+        distance = Mathf.Abs(beat_point.position.z - spawn_point.position.z); // 距離
+        during = 3 * 1000;  // かかる時間
         is_playing = false;
         go_index = 0;
         check_range = 110;
@@ -179,8 +179,7 @@ public class NotesContoller : MonoBehaviour
         play_time = Time.time * 1000;
         is_playing = true;
     }
-
-
+    
 
     // ノーツ登場
     void NotesShow(GameObject notes)
@@ -199,7 +198,6 @@ public class NotesContoller : MonoBehaviour
     // timingと一番近いタイミングのノーツを探す
     void Beat(float timing)
     {
-        
         float minDiff = -1;
         int minDiffIndex = -1;
 
@@ -223,16 +221,17 @@ public class NotesContoller : MonoBehaviour
             {
                 note_timings[minDiffIndex] = -1;
                 notes[minDiffIndex].SendMessage("OnHitBullet");  // NotesBase.OnHitBullet();
-                // Debug.Log("GOOD");
-                log = "good";
-                combo++;
+                Debug.Log("GOOD");
+                TimingLog = "good";
+                Combo++;
             }
             else
             {
                 note_timings[minDiffIndex] = -1;
                 notes[minDiffIndex].SendMessage("OnHitBullet");
-                //  Debug.Log("BAD");
-                log = "bad";
+                Debug.Log("BAD");
+                TimingLog = "bad";
+                Combo = 0;
             }
         }
     }

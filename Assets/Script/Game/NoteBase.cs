@@ -24,7 +24,7 @@ public class NoteBase : MonoBehaviour
     Vector3 start_pos_   = Vector3.zero;    
     float now_z_         = 0;
     float frame_         = 0;
-    Animator note_;
+    Animator note_ = null;
     AudioSource audio_source_ = null;
     int id_ = 0;
     
@@ -53,7 +53,6 @@ public class NoteBase : MonoBehaviour
         
         note_ = GetComponent<Animator>();
         audio_source_ = GetComponent<AudioSource>();
-       // miss = GetComponent<Text>();
         
         //オブジェクト配置
         this.UpdateAsObservable()
@@ -77,18 +76,12 @@ public class NoteBase : MonoBehaviour
                 
                 this.gameObject.transform.localPosition = new Vector3(first_pos_.x - (float)x, first_pos_.y, first_pos_.z - (float)z);
 
-                /*
-                if(id_ == 0)
-                {
-                    Debug.LogFormat("x:{0} radian:{1} radius:{2} ", this.gameObject.transform.localPosition.x, radian, radius);
-                }
-                */
-
                 now_pos_ = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, this.transform.localPosition.z);
                 now_z_ = now_pos_.z;
 
                 MaterialChange(Color.red);
             });
+
 
         //beat_pointでとどまらせる
         this.UpdateAsObservable()
@@ -106,13 +99,11 @@ public class NoteBase : MonoBehaviour
             .Subscribe(_ =>
             {
                 this.gameObject.SetActive(false);
-                //  Debug.Log("MISS");
+                Debug.Log("MISS");
                 NotesContoller.TimingLog = "miss";
                 NotesContoller.Combo = 0;
             });
             
-       
-        
     }
     
     // p2からp1への角度を求める

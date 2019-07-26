@@ -7,21 +7,33 @@ public class PopUp : MonoBehaviour
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] GameObject pop_up = null;
     [SerializeField] GameObject options = null;
-   // [SerializeField] GameObject pauses = null;
-    [SerializeField]AudioClip se = null;
+    [SerializeField] AudioClip se = null;
+    [SerializeField] GameObject pause = null;
+    [SerializeField] GameObject now_option = null;
 
     // 以下メンバ変数定義.
     AudioSource audio_source = null;
-    
+    bool pause_flag = false;
 
 
     void Start()
     {
         pop_up.SetActive(false);
         options.SetActive(false);
-        //pauses.SetActive(false);
+        pause.SetActive(false);
+        now_option.SetActive(false);
         audio_source = GetComponent<AudioSource>();
+        pause_flag = false;
     }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !pause_flag)
+        {
+            PushPause();
+        }
+    }
+
 
 
     //ポップアップ開閉
@@ -51,14 +63,23 @@ public class PopUp : MonoBehaviour
     //ポーズ画面開閉
     public void PushPause()
     {
-        if (Input.GetButtonDown("Q"))
-        {
-            //pauses.SetActive(true);
-        }
+        pause.SetActive(true);
         
     }
     public void ClosePause()
     {
-        //pauses.SetActive(false);
+        pause.SetActive(false);
+    }
+
+    // ゲーム中のオプション画面開閉
+    public void PushGameNowOption()
+    {
+        now_option.SetActive(true);
+        pause_flag = true;
+    }
+    public void CloseGameNowOption()
+    {
+        now_option.SetActive(false);
+        pause_flag = false;
     }
 }

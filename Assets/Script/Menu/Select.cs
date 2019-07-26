@@ -170,11 +170,4 @@ public class Select : MonoBehaviour
         game_ui.SetActive(false);
     }
 
-
-    // 戻るボタンでタイトルへ
-    public void PushReturnButton()
-    {
-        SceneManager.LoadScene("Scene_title");
-    }
-
 }

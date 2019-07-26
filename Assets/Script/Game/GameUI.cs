@@ -15,7 +15,7 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
-        
+
     }
     
     void Update()
@@ -53,4 +53,5 @@ public class GameUI : MonoBehaviour
     {
         combo_log.text = ((int)NotesContoller.Combo).ToString("0");
     }
+    
 }

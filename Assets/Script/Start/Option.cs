@@ -36,7 +36,6 @@ public class Option : MonoBehaviour
         buki_ = true;
         eyes_lr = true;
         eyes_ud = true;
-        
     }
 
     
@@ -75,7 +74,6 @@ public class Option : MonoBehaviour
     //視点左右反転
     public void EyesLR()
     {
-
         if (eyes_lr)
         {
             eyes_lr = false;
@@ -108,8 +106,6 @@ public class Option : MonoBehaviour
     public void BGMVolume(float bgmValue)
     {
         mixer.SetFloat("MyExposedParam", bgmValue);
-        
-
     }
     //SE音量調節(現在はタイトルのみ反映)
     public void SEVolume(float volume)
@@ -135,8 +131,5 @@ public class Option : MonoBehaviour
             buki.text = "スパナ　　鉈";
         }
     }
-
-
-
-
+    
 }
