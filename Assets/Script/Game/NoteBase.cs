@@ -54,7 +54,7 @@ public class NoteBase : MonoBehaviour
         note_ = GetComponent<Animator>();
         audio_source_ = GetComponent<AudioSource>();
         
-        //オブジェクト配置
+        // オブジェクト配置
         this.UpdateAsObservable()
             .Where(_ => is_go_)
             //.Where(_ => !is_die_)
@@ -62,13 +62,10 @@ public class NoteBase : MonoBehaviour
             .Subscribe(_ => {
 
                 float time_ratio = (Time.time * 1000 - go_time_) / during_;
-
                 float rot_y = this.gameObject.transform.rotation.eulerAngles.y - 180;
-
                 float radian2 = GetAim(new Vector2(-3, 0), new Vector2(this.transform.position.z, this.transform.position.x));
                 
                 rot_y = radian2;
-
                 float radius = distance_ * time_ratio;
                 double radian = rot_y * Math.PI / 180;
                 var x = Math.Sin(radian) * radius;
@@ -78,12 +75,11 @@ public class NoteBase : MonoBehaviour
 
                 now_pos_ = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, this.transform.localPosition.z);
                 now_z_ = now_pos_.z;
-
-                MaterialChange(Color.red);
+                
             });
 
 
-        //beat_pointでとどまらせる
+        // beat_pointでとどまらせる
         this.UpdateAsObservable()
             .Where(_ => now_z_ < 0)
             .Where(_=> frame_ <= 59)
@@ -103,7 +99,26 @@ public class NoteBase : MonoBehaviour
                 NotesContoller.TimingLog = "miss";
                 NotesContoller.Combo = 0;
             });
-            
+
+        // 時間によりマテリアル変更
+        this.UpdateAsObservable()
+            .Where(_ => Time.time * 1000 - go_time_ > 0.7 * 1000)
+            .Subscribe(_ =>
+            {
+                MaterialChange(Color.blue);
+            });
+        this.UpdateAsObservable()
+            .Where(_ => Time.time * 1000 - go_time_ > 1.7 * 1000)
+            .Subscribe(_ =>
+            {
+                MaterialChange(Color.red);
+            });
+        this.UpdateAsObservable()
+            .Where(_ => Time.time * 1000 - go_time_ > 2.7 * 1000)
+            .Subscribe(_ =>
+            {
+                MaterialChange(Color.white);
+            });
     }
     
     // p2からp1への角度を求める
@@ -118,7 +133,7 @@ public class NoteBase : MonoBehaviour
         return rad * Mathf.Rad2Deg;
     }
     
-    //値管理とタイマー開始
+    // 値管理とタイマー開始
     public void Go(float distance, float during,int id)
     {
         id_ = id;
@@ -146,7 +161,7 @@ public class NoteBase : MonoBehaviour
     }
 
 
-    //ノーツの初期地点とフラグ管理
+    // ノーツの初期地点とフラグ管理
     void Show()
     {
         is_show_ = true;
@@ -159,7 +174,7 @@ public class NoteBase : MonoBehaviour
     float py = 0.1f;
     void Update()
     {
-        //ノーツが降ってくる？
+        //ノーツが降ってくる
         if (is_show_ )
         {
             dy += py;
@@ -173,13 +188,13 @@ public class NoteBase : MonoBehaviour
         }
     }
 
-    //倒されたら実行
+    // 倒されたら実行
     void OnHitBullet()
     {
         StartCoroutine(DaiAnim());
     }
     
-    //倒れるアニメーション＆音声再生、自身を破壊
+    // 倒れるアニメーション＆音声再生、自身を破壊
     IEnumerator DaiAnim()
     {
         note_.SetBool("dai", true);
@@ -193,7 +208,8 @@ public class NoteBase : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    //マテリアルの色変更
+    
+    // マテリアルの色変更
     void MaterialChange(Color color)
     {
         Renderer[] renderers = this.GetComponentsInChildren<Renderer>();
@@ -201,6 +217,6 @@ public class NoteBase : MonoBehaviour
         {
             renderer.material.color = color;
         }
-        
     }
+    
 }

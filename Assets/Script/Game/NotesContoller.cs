@@ -79,6 +79,7 @@ public class NotesContoller : MonoBehaviour
                 NotesShow(notes[go_index]);
                 notes[go_index].GetComponent<NoteBase>().Go(distance, during, go_index);
                 go_index++;
+                MaterialChange(Color.red);
             });
 
         // 曲が終わったらパネル復活
@@ -109,6 +110,7 @@ public class NotesContoller : MonoBehaviour
             .Subscribe(_ => {
                 Beat(Time.time * 1000 - play_time);
             });
+        
     }
 
     
@@ -236,4 +238,14 @@ public class NotesContoller : MonoBehaviour
         }
     }
 
+    //マテリアルの色変更
+    void MaterialChange(Color color)
+    {
+        Renderer[] renderers = this.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.material.color = color;
+        }
+
+    }
 }
