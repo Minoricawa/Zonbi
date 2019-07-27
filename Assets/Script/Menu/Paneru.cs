@@ -7,21 +7,30 @@ public class Paneru : MonoBehaviour
 {
     // 以下公開メンバ変数定義.
     public int id;
-    public Text name_text = null;
 
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] string json_path = null;
     [SerializeField] Text author_text = null;
     [SerializeField] Text nando_text = null;
+    [SerializeField] Text name_text = null;
 
     // 以下メンバ変数定義.
     CanvasGroup canvas = null;
     IEnumerator fadein = null;
     IEnumerator fadeout = null;
-    
+    static string title_name = null;
+
     // 以下公開関数定義
     public System.Action<int> click_callback = null;
-    
+
+
+    // 以下プロパティ.
+    public static string Title_name
+    {
+        get { return title_name; }
+    }
+
+
 
 
     void Start()
@@ -38,7 +47,8 @@ public class Paneru : MonoBehaviour
         string json_text = Resources.Load<TextAsset>(json_path).ToString();
         JsonNode json = JsonNode.Parse(json_text);
 
-        name_text.text = json["title"].Get<string>();
+        title_name = json["title"].Get<string>();
+        name_text.text = title_name;
         author_text.text = json["author"].Get<string>();
         nando_text.text = json["nando"].Get<string>();
 

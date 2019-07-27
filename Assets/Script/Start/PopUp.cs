@@ -28,6 +28,7 @@ public class PopUp : MonoBehaviour
 
     void Update()
     {
+        // スペースを押すとポーズ画面表示
         if (Input.GetKeyDown(KeyCode.Space) && !pause_flag)
         {
             PushPause();

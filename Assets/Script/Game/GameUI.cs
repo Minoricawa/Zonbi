@@ -8,6 +8,7 @@ public class GameUI : MonoBehaviour
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] Text timing_log = null;
     [SerializeField] Text combo_log = null;
+    [SerializeField] Text title = null;
 
     // 以下メンバ変数定義.
     string ui_log = null;
@@ -15,7 +16,7 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
-
+        title.text = Paneru.Title_name;
     }
     
     void Update()
@@ -25,7 +26,7 @@ public class GameUI : MonoBehaviour
     }
     
 
-    //タイミングによって出すテキストを表示
+    // タイミングによって出すテキストを表示
     IEnumerator Timing(string timing_log_text)
     {
         switch (timing_log_text)
@@ -48,7 +49,7 @@ public class GameUI : MonoBehaviour
         timing_log.text = "";
     }
 
-    //コンボ数を表示
+    // コンボ数を表示
     void ComboText()
     {
         combo_log.text = ((int)NotesContoller.Combo).ToString("0");
