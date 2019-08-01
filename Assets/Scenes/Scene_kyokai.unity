@@ -11544,6 +11544,7 @@ MonoBehaviour:
   combo_log: {fileID: 548575889}
   title: {fileID: 261308241}
   hp_slider: {fileID: 466132911}
+  score_log: {fileID: 384145270}
 --- !u!1 &1515510234
 GameObject:
   m_ObjectHideFlags: 0

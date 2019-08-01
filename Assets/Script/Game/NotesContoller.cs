@@ -20,6 +20,7 @@ public class NotesContoller : MonoBehaviour
     // 以下静的メンバ変数定義.
    // static string log = null;
     static int combo = 0;
+    static int score = 0;
 
     // 以下メンバ変数定義.
     int id_;
@@ -40,6 +41,7 @@ public class NotesContoller : MonoBehaviour
     System.Action<string> timing_callback_ = null;
   //  bool is_pause_ = false;
     System.Action good_callback_ = null;
+    System.Action bad_callback_ = null;
 
     // 以下プロパティ.
     public bool IsPlaying
@@ -47,12 +49,18 @@ public class NotesContoller : MonoBehaviour
         get { return is_playing; }
     } 
 
-   public static int Combo
+    public static int Combo
     {
         get { return combo; }
         set { combo = value; }
     }
 
+    public static int Score
+    {
+        get { return score; }
+        set { score = value; }
+    }
+    
     public System.Action MissCallback
     {
         set { miss_callback_ = value; }
@@ -63,12 +71,15 @@ public class NotesContoller : MonoBehaviour
         set { timing_callback_ = value; }
     }
 
-    public System.Action GoodCalloback
+    public System.Action GoodCallback
     {
         set { good_callback_ = value; }
     }
 
-
+    public System.Action BadCallback
+    {
+        set { bad_callback_ = value; }
+    }
 
 
 
@@ -190,9 +201,18 @@ public class NotesContoller : MonoBehaviour
     void OnGood()
     {
         combo++;
+        score += 1000;
+        if (timing_callback_ != null) timing_callback_("good");
         if (good_callback_ != null) good_callback_();
     }
 
+    // Badの場合の処理
+    void OnBad()
+    {
+        score += 100;
+        if (timing_callback_ != null) timing_callback_("bad");
+        if (bad_callback_ != null) bad_callback_();
+    }
 
 
 
@@ -269,7 +289,6 @@ public class NotesContoller : MonoBehaviour
                 note_timings[minDiffIndex] = -1;
                 notes_list[minDiffIndex].SendMessage("OnHitBullet");  // NotesBase.OnHitBullet();
                 Debug.Log("GOOD");
-                if (timing_callback_ != null) timing_callback_("good");
                 OnGood();
             }
             else
@@ -277,7 +296,7 @@ public class NotesContoller : MonoBehaviour
                 note_timings[minDiffIndex] = -1;
                 notes_list[minDiffIndex].SendMessage("OnHitBullet");
                 Debug.Log("BAD");
-                if (timing_callback_ != null) timing_callback_("bad");
+                OnBad();
             }
         }
     }

@@ -15,7 +15,8 @@ public class GameScene : MonoBehaviour
     {
         notes_controller.MissCallback = OnMiss;
         notes_controller.TimingCallback = OnTiming;
-        notes_controller.GoodCalloback = OnGood;
+        notes_controller.GoodCallback = OnGood;
+        notes_controller.BadCallback = OnBad;
         select.SetPaneruCallback = OnSetPaneru;
     }
 
@@ -31,6 +32,13 @@ public class GameScene : MonoBehaviour
     void OnGood()
     {
         game_ui.ComboText();
+        game_ui.ScoreText();
+    }
+
+    // BADの場合の処理
+    void OnBad()
+    {
+        game_ui.ScoreText();
     }
 
 
@@ -41,6 +49,7 @@ public class GameScene : MonoBehaviour
         game_ui.gameObject.SetActive(true);
         game_ui.SeUp(select.GetMusicTitle(id));
         game_ui.ComboReset();
+        game_ui.ScoreReset();
     }
 
     // タイミング表示

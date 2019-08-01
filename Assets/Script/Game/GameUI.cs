@@ -10,6 +10,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] Text combo_log = null;
     [SerializeField] Text title = null;
     [SerializeField] Slider hp_slider = null;
+    [SerializeField] Text score_log = null;
 
     // 以下メンバ変数定義.
    // string ui_log = null;
@@ -31,6 +32,7 @@ public class GameUI : MonoBehaviour
         combo_log.text = "Combo:000";
         title.text = title_str;
         hp_slider.value = 1;
+        score_log.text = "Score:000000";
     }
 
     public void SetTiming(string str)
@@ -84,7 +86,18 @@ public class GameUI : MonoBehaviour
     public void Damage()
     {
         Debug.LogFormat("hp_slider.value {0}", hp_slider.value);
-
         hp_slider.value = hp_slider.value - 0.2f;
+    }
+
+    // スコア数を表示
+    public void ScoreText()
+    {
+        score_log.text = "Score:" + ((int)NotesContoller.Score).ToString("000000");
+    }
+
+    // スコア数リセット
+    public void ScoreReset()
+    {
+        NotesContoller.Score = 0;
     }
 }
