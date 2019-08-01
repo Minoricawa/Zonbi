@@ -182,7 +182,6 @@ public class Select : MonoBehaviour
     public void GameUISet()
     {
         game_ui.SetActive(false);
-      //  canvas.GetComponent<NotesContoller>.Combo = 0;
     }
 
 }

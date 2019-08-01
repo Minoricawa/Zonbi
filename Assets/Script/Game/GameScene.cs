@@ -40,6 +40,7 @@ public class GameScene : MonoBehaviour
         notes_controller.Play(id);
         game_ui.gameObject.SetActive(true);
         game_ui.SeUp(select.GetMusicTitle(id));
+        game_ui.ComboReset();
     }
 
     // タイミング表示

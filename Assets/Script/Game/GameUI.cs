@@ -66,11 +66,19 @@ public class GameUI : MonoBehaviour
         timing_log.text = "";
     }
 
+
     // コンボ数を表示
     public void ComboText()
     {
         combo_log.text = "Combo:" + ((int)NotesContoller.Combo).ToString("000");
     }
+
+    // コンボ数リセット
+    public void ComboReset()
+    {
+        NotesContoller.Combo = 0;
+    }
+
 
     // HPバーを減らす
     public void Damage()
