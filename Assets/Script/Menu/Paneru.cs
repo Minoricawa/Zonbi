@@ -18,14 +18,14 @@ public class Paneru : MonoBehaviour
     CanvasGroup canvas = null;
     IEnumerator fadein = null;
     IEnumerator fadeout = null;
-    static string title_name = null;
+    string title_name = null;
 
     // 以下公開関数定義
     public System.Action<int> click_callback = null;
 
 
     // 以下プロパティ.
-    public static string Title_name
+    public string TitleName
     {
         get { return title_name; }
     }

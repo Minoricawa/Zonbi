@@ -21,8 +21,23 @@ public class Select : MonoBehaviour
     int distance = 40;
     int paneru_y = 4;
     float prev_cam_rot_y = 0;
-    
+    System.Action<int> set_paneru_callback = null;   // 決定した時に呼ぶ
 
+    // 以下プロパティ.
+    public System.Action<int> SetPaneruCallback
+    {
+        set { set_paneru_callback = value; }
+    }
+
+    public string GetMusicTitle(int id)
+    {
+        Paneru paneru = sound_paneru_list[id];
+        if (paneru != null)
+        {
+            return paneru.TitleName;
+        }
+        return "";
+    }
 
     void Start()
     {
@@ -118,10 +133,9 @@ public class Select : MonoBehaviour
     // クリックしたパネルのidをプレイ、ゲームUI表示
     public void ClickPaneru(int id)
     {
-        canvas.GetComponent<NotesContoller>().Play(id);
         HidePaneruList();
-
-        game_ui.SetActive(true);
+        if (set_paneru_callback != null) set_paneru_callback(id);
+        
     }
     
 
@@ -168,6 +182,7 @@ public class Select : MonoBehaviour
     public void GameUISet()
     {
         game_ui.SetActive(false);
+      //  canvas.GetComponent<NotesContoller>.Combo = 0;
     }
 
 }

@@ -32,12 +32,13 @@ public class PopUp : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !pause_flag)
         {
             PushPause();
+
         }
     }
 
 
 
-    //ポップアップ開閉
+    // ポップアップ開閉
     public void Open()
     {
         pop_up.SetActive(true);
@@ -47,10 +48,11 @@ public class PopUp : MonoBehaviour
     {
         pop_up.SetActive(false);
         audio_source.PlayOneShot(se);
+
     }
 
 
-    //オプション画面開閉
+    // オプション画面開閉
     public void PushOption()
     {
         options.SetActive(true);
@@ -61,15 +63,32 @@ public class PopUp : MonoBehaviour
     }
 
 
-    //ポーズ画面開閉
+    // ポーズ画面開閉
     public void PushPause()
     {
         pause.SetActive(true);
+
+        GameObject go = GameObject.Find("SelectPaneru");
+        if (go != null)
+        {
+            NotesContoller notes_controller = go.GetComponent<NotesContoller>();
+            notes_controller.Pause();
+            Time.timeScale = 0;
+        }
+        
+
         
     }
     public void ClosePause()
     {
         pause.SetActive(false);
+        GameObject go = GameObject.Find("SelectPaneru");
+        if (go != null)
+        {
+            NotesContoller notes_controller = go.GetComponent<NotesContoller>();
+            notes_controller.Resume();
+            Time.timeScale = 1;
+        }
     }
 
     // ゲーム中のオプション画面開閉

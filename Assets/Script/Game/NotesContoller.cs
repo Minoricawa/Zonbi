@@ -18,7 +18,7 @@ public class NotesContoller : MonoBehaviour
     [SerializeField] Transform lean_right = null;
 
     // 以下静的メンバ変数定義.
-    static string log = null;
+   // static string log = null;
     static int combo = 0;
 
     // 以下メンバ変数定義.
@@ -26,7 +26,7 @@ public class NotesContoller : MonoBehaviour
     string title = null;
     // int BPM = 0;
     float end = 0;
-    List<GameObject> notes;
+    List<GameObject> notes_list;
     float distance = 0.0f;
     float during = 0.0f;
     float play_time = 0.0f;
@@ -36,10 +36,13 @@ public class NotesContoller : MonoBehaviour
     List<float> note_timings = new List<float>();
     float check_range = 0;
     float beat_range = 0;
-
+    System.Action miss_callback_ = null;
+    System.Action<string> timing_callback_ = null;
+  //  bool is_pause_ = false;
+    System.Action good_callback_ = null;
 
     // 以下プロパティ.
-   public bool IsPlaying
+    public bool IsPlaying
     {
         get { return is_playing; }
     } 
@@ -50,11 +53,36 @@ public class NotesContoller : MonoBehaviour
         set { combo = value; }
     }
 
-   public static String TimingLog
+    public System.Action MissCallback
     {
-        get { return log; }
-        set { log = value; }
-    } 
+        set { miss_callback_ = value; }
+    }
+
+    public System.Action<string> TimingCallback
+    {
+        set { timing_callback_ = value; }
+    }
+
+    public System.Action GoodCalloback
+    {
+        set { good_callback_ = value; }
+    }
+
+
+
+
+
+    public void Pause()
+    {
+       // is_pause_ = true;
+        music.Pause();
+    }
+
+    public void Resume()
+    {
+       // is_pause_ = true;
+        music.Play();
+    }
 
     void OnEnable()
     {
@@ -73,11 +101,11 @@ public class NotesContoller : MonoBehaviour
         // ノーツを出現
         this.UpdateAsObservable()
             .Where(_ => is_playing)
-            .Where(_ => notes.Count > go_index)
-            .Where(_ => notes[go_index].GetComponent<NoteBase>().GetTiming() <= ((Time.time * 1000 - (play_time - 500)) + during))
+            .Where(_ => notes_list.Count > go_index)
+            .Where(_ => notes_list[go_index].GetComponent<NoteBase>().GetTiming() <= ((Time.time * 1000 - (play_time - 500)) + during))
             .Subscribe(_ => {
-                NotesShow(notes[go_index]);
-                notes[go_index].GetComponent<NoteBase>().Go(distance, during, go_index);
+                NotesShow(notes_list[go_index]);
+                notes_list[go_index].GetComponent<NoteBase>().Go(distance, during, go_index);
                 go_index++;
             });
 
@@ -117,7 +145,7 @@ public class NotesContoller : MonoBehaviour
     void LoadChart(int id)
     {
         go_index = 0;
-        notes = new List<GameObject>();
+        notes_list = new List<GameObject>();
 
         string jsonText = Resources.Load<TextAsset>(bgm_filePath_list[id]).ToString();
         music.clip = (AudioClip)Resources.Load(bgm_clipPath_list[id]);
@@ -133,20 +161,38 @@ public class NotesContoller : MonoBehaviour
         foreach (var note in json["notes"])
         {
             float timing = float.Parse(note["timing"].Get<string>());
-            GameObject noteNew;
+            GameObject notes;
             float xrandam = (float)r.Next(-20, 20) / 10; // ブレ幅
-            noteNew = Instantiate(zombie_notes, new Vector3(spawn_point.position.x + xrandam, spawn_point.position.y, spawn_point.position.z), Quaternion.Euler(0, 180, 0));
-            SetLean(noteNew, note["lean"].Get<string>());
-            noteNew.GetComponent<NoteBase>().SetParameter(timing);
+            notes = Instantiate(zombie_notes, new Vector3(spawn_point.position.x + xrandam, spawn_point.position.y, spawn_point.position.z), Quaternion.Euler(0, 180, 0));
+            SetLean(notes, note["lean"].Get<string>());
+            notes.GetComponent<NoteBase>().SetParameter(timing);
+            notes.GetComponent<NoteBase>().MissCallback = OnMiss;
 
-            notes.Add(noteNew);
+            notes_list.Add(notes);
 
-            NotesHide(noteNew);
+            NotesHide(notes);
 
             note_timings.Add(timing);
         }
 
     }
+
+    // ミスをした場合の処理
+    void OnMiss()
+    {
+        Debug.Log("NotesContoller OnMiss");
+        if(miss_callback_ != null) miss_callback_();
+        if (timing_callback_ != null) timing_callback_("miss");
+    }
+
+    // Goodの場合の処理
+    void OnGood()
+    {
+        combo++;
+        if (good_callback_ != null) good_callback_();
+    }
+
+
 
 
     // ノーツのレーン分け
@@ -220,18 +266,17 @@ public class NotesContoller : MonoBehaviour
             if (minDiff < beat_range)
             {
                 note_timings[minDiffIndex] = -1;
-                notes[minDiffIndex].SendMessage("OnHitBullet");  // NotesBase.OnHitBullet();
+                notes_list[minDiffIndex].SendMessage("OnHitBullet");  // NotesBase.OnHitBullet();
                 Debug.Log("GOOD");
-                TimingLog = "good";
-                Combo++;
+                if (timing_callback_ != null) timing_callback_("good");
+                OnGood();
             }
             else
             {
                 note_timings[minDiffIndex] = -1;
-                notes[minDiffIndex].SendMessage("OnHitBullet");
+                notes_list[minDiffIndex].SendMessage("OnHitBullet");
                 Debug.Log("BAD");
-                TimingLog = "bad";
-                Combo = 0;
+                if (timing_callback_ != null) timing_callback_("bad");
             }
         }
     }

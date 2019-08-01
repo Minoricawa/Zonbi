@@ -9,20 +9,33 @@ public class GameUI : MonoBehaviour
     [SerializeField] Text timing_log = null;
     [SerializeField] Text combo_log = null;
     [SerializeField] Text title = null;
+    [SerializeField] Slider hp_slider = null;
 
     // 以下メンバ変数定義.
-    string ui_log = null;
-    
+   // string ui_log = null;
+
 
     void Start()
     {
-        title.text = Paneru.Title_name;
+        
     }
     
     void Update()
     {
-        ui_log = NotesContoller.TimingLog;
-        StartCoroutine(Timing(ui_log));
+
+    }
+
+
+    public void SeUp(string title_str)
+    {
+        combo_log.text = "Combo:000";
+        title.text = title_str;
+        hp_slider.value = 1;
+    }
+
+    public void SetTiming(string str)
+    {
+        StartCoroutine("Timing", str);
     }
     
 
@@ -42,6 +55,10 @@ public class GameUI : MonoBehaviour
             case "miss":
                 timing_log.text = "MISS!!";
                 break;
+
+            default:
+                timing_log.text = "MISS!!";
+                break;
         }
         
         yield return new WaitForSeconds(0.5f);
@@ -50,9 +67,16 @@ public class GameUI : MonoBehaviour
     }
 
     // コンボ数を表示
-    void ComboText()
+    public void ComboText()
     {
-        combo_log.text = ((int)NotesContoller.Combo).ToString("0");
+        combo_log.text = "Combo:" + ((int)NotesContoller.Combo).ToString("000");
     }
-    
+
+    // HPバーを減らす
+    public void Damage()
+    {
+        Debug.LogFormat("hp_slider.value {0}", hp_slider.value);
+
+        hp_slider.value = hp_slider.value - 0.2f;
+    }
 }

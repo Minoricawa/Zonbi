@@ -27,7 +27,9 @@ public class NoteBase : MonoBehaviour
     Animator note_ = null;
     AudioSource audio_source_ = null;
     int id_ = 0;
-    
+    GameUI game_ui;
+    System.Action miss_callback_ = null;
+    bool is_miss_ = false;
 
     // 以下プロパティ定義.
     void StartNotes()
@@ -44,6 +46,11 @@ public class NoteBase : MonoBehaviour
     {
         return timing_;
     }
+
+    public System.Action MissCallback
+    {
+        set { miss_callback_ = value; }
+    }
     
 
     void OnEnable()
@@ -53,6 +60,8 @@ public class NoteBase : MonoBehaviour
         
         note_ = GetComponent<Animator>();
         audio_source_ = GetComponent<AudioSource>();
+
+
         
         // オブジェクト配置
         this.UpdateAsObservable()
@@ -88,16 +97,20 @@ public class NoteBase : MonoBehaviour
                 frame_++;
             });
 
-        
+        var cnt = 0;
         //「MISS」とログ、自身を消す
         this.UpdateAsObservable()
+            .Where(_ => !is_miss_)
             .Where(_ => frame_ == 60)
             .Subscribe(_ =>
             {
+                cnt++;
+                Debug.LogFormat("cnt {0}", cnt);
+                is_miss_ = true;
                 this.gameObject.SetActive(false);
                 Debug.Log("MISS");
-                NotesContoller.TimingLog = "miss";
-                NotesContoller.Combo = 0;
+               // NotesContoller.Combo = 0;
+                if (miss_callback_ != null) miss_callback_();
             });
 
         // 時間によりマテリアル変更
