@@ -39,7 +39,6 @@ public class NotesContoller : MonoBehaviour
     float beat_range = 0;
     System.Action miss_callback_ = null;
     System.Action<string> timing_callback_ = null;
-  //  bool is_pause_ = false;
     System.Action good_callback_ = null;
     System.Action bad_callback_ = null;
 
@@ -48,6 +47,11 @@ public class NotesContoller : MonoBehaviour
     {
         get { return is_playing; }
     } 
+
+    public AudioSource Music
+    {
+        get { return music; }
+    }
 
     public static int Combo
     {
@@ -85,13 +89,11 @@ public class NotesContoller : MonoBehaviour
 
     public void Pause()
     {
-       // is_pause_ = true;
         music.Pause();
     }
 
     public void Resume()
     {
-       // is_pause_ = true;
         music.Play();
     }
 
@@ -247,6 +249,7 @@ public class NotesContoller : MonoBehaviour
         is_playing = true;
     }
     
+    
 
     // ノーツ登場
     void NotesShow(GameObject notes)
@@ -261,6 +264,7 @@ public class NotesContoller : MonoBehaviour
     {
         notes.transform.localPosition = new Vector3(notes.transform.localPosition.x, -1000, notes.transform.localPosition.z);
     }
+
 
     // timingと一番近いタイミングのノーツを探す
     void Beat(float timing)

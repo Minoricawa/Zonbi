@@ -11,14 +11,23 @@ public class GameUI : MonoBehaviour
     [SerializeField] Text title = null;
     [SerializeField] Slider hp_slider = null;
     [SerializeField] Text score_log = null;
+    [SerializeField] GameObject gameover = null;
 
     // 以下メンバ変数定義.
-   // string ui_log = null;
+    // string ui_log = null;
+    System.Action gameover_callback = null;
+
+    // 以下プロパティ.
+    public System.Action GameoverCallback
+    {
+        set { gameover_callback = value; }
+    }
+    
 
 
     void Start()
     {
-        
+        gameover.SetActive(false);
     }
     
     void Update()
@@ -87,6 +96,10 @@ public class GameUI : MonoBehaviour
     {
         Debug.LogFormat("hp_slider.value {0}", hp_slider.value);
         hp_slider.value = hp_slider.value - 0.2f;
+        if (hp_slider.value <= 0)
+        {
+            GameOver();
+        }
     }
 
     // スコア数を表示
@@ -99,5 +112,12 @@ public class GameUI : MonoBehaviour
     public void ScoreReset()
     {
         NotesContoller.Score = 0;
+    }
+
+    // 体力0になるとゲームオーバー画面へ
+    void GameOver()
+    {
+        gameover.SetActive(true);
+        if (gameover_callback != null) gameover_callback();
     }
 }

@@ -18,6 +18,7 @@ public class GameScene : MonoBehaviour
         notes_controller.GoodCallback = OnGood;
         notes_controller.BadCallback = OnBad;
         select.SetPaneruCallback = OnSetPaneru;
+        game_ui.GameoverCallback = OnGameOver;
     }
 
     // ミスをした場合の処理
@@ -51,12 +52,24 @@ public class GameScene : MonoBehaviour
         game_ui.ComboReset();
         game_ui.ScoreReset();
     }
+    
 
     // タイミング表示
     void OnTiming(string str)
     {
         game_ui.SetTiming(str);
     }
+
+
+    // ゲームオーバー時の処理
+    void OnGameOver()
+    {
+        Time.timeScale = 0;
+        notes_controller.Music.Pause();
+    }
+
+
+
 
     // Update is called once per frame
     void Update()
