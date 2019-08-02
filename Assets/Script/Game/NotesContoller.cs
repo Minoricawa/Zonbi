@@ -41,6 +41,8 @@ public class NotesContoller : MonoBehaviour
     System.Action<string> timing_callback_ = null;
     System.Action good_callback_ = null;
     System.Action bad_callback_ = null;
+    System.Action paneru_callback_ = null;
+
 
     // 以下プロパティ.
     public bool IsPlaying
@@ -85,6 +87,11 @@ public class NotesContoller : MonoBehaviour
         set { bad_callback_ = value; }
     }
 
+    public System.Action PaneruCallback
+    {
+        set { paneru_callback_ = value; }
+    }
+
 
 
     public void Pause()
@@ -126,14 +133,12 @@ public class NotesContoller : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => Time.time * 1000 - play_time >= end)
+            .Where(_=> paneru_callback_ != null)
             .Subscribe(_ =>
             {
-                if (is_playing)
-                {
-                    is_playing = false;
-                    this.GetComponent<Select>().OpenPaneruList();
-                    this.GetComponent<Select>().GameUISet();
-                }
+                is_playing = false;
+                paneru_callback_();
+            
             });
 
         // プレイ中、ボタンを押したタイムを見る

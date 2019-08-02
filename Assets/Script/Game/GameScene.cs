@@ -17,6 +17,7 @@ public class GameScene : MonoBehaviour
         notes_controller.TimingCallback = OnTiming;
         notes_controller.GoodCallback = OnGood;
         notes_controller.BadCallback = OnBad;
+        notes_controller.PaneruCallback = OnPaneru;
         select.SetPaneruCallback = OnSetPaneru;
         game_ui.GameoverCallback = OnGameOver;
     }
@@ -66,6 +67,15 @@ public class GameScene : MonoBehaviour
     {
         Time.timeScale = 0;
         notes_controller.Music.Pause();
+    }
+
+
+
+    // 曲が終わったらパネル復活
+    void OnPaneru()
+    {
+        select.OpenPaneruList();
+        select.GameUISet();
     }
 
 
