@@ -17,6 +17,7 @@ public class GameUI : MonoBehaviour
     // string ui_log = null;
     System.Action gameover_callback = null;
 
+
     // 以下プロパティ.
     public System.Action GameoverCallback
     {
@@ -35,7 +36,7 @@ public class GameUI : MonoBehaviour
 
     }
 
-
+    // 初期設定
     public void SeUp(string title_str)
     {
         combo_log.text = "Combo:000";
@@ -44,13 +45,12 @@ public class GameUI : MonoBehaviour
         score_log.text = "Score:000000";
     }
 
+    // タイミングによって出すテキストを表示 
     public void SetTiming(string str)
     {
         StartCoroutine("Timing", str);
     }
     
-
-    // タイミングによって出すテキストを表示
     IEnumerator Timing(string timing_log_text)
     {
         switch (timing_log_text)
@@ -120,4 +120,5 @@ public class GameUI : MonoBehaviour
         gameover.SetActive(true);
         if (gameover_callback != null) gameover_callback();
     }
+    
 }

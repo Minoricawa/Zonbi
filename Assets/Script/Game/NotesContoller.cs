@@ -129,7 +129,7 @@ public class NotesContoller : MonoBehaviour
                 go_index++;
             });
 
-        // 曲が終わったらパネル復活
+        // 曲が終わったらパネル復活のコールバック起動
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => Time.time * 1000 - play_time >= end)

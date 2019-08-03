@@ -7,8 +7,8 @@ using UnityEngine.Audio;
 public class Option : MonoBehaviour
 {
     // 以下メンバ変数定義(SerializeField).
-    [SerializeField] Text speed = null;
-    [SerializeField] Text buki = null;
+   // [SerializeField] Text speed = null;
+   // [SerializeField] Text buki = null;
     [SerializeField] int sp = 0;
     [SerializeField] AudioMixer mixer = null;
     [SerializeField] Image button_lr = null;
@@ -19,8 +19,8 @@ public class Option : MonoBehaviour
     static public bool eyes_ud = false;
 
     // 以下メンバ変数定義.
-    string te = "";
-    bool buki_ = false;
+  //  string te = "";
+  //  bool buki_ = false;
     
     // 以下プロパティ.
     public int Sp
@@ -32,14 +32,14 @@ public class Option : MonoBehaviour
 
     void Start()
     {
-        sp = 5;
-        buki_ = true;
+      //  sp = 5;
+      //  buki_ = true;
         eyes_lr = true;
         eyes_ud = true;
     }
 
-    
-    //ノーツスピード変更(現在は表示のみ変わる)
+    /*
+    //ノーツスピード変更
     public void SpeedUp()
     {
         if (sp < 10)
@@ -68,7 +68,7 @@ public class Option : MonoBehaviour
         }
 
     }
-
+    */
 
 
     //視点左右反転
@@ -102,21 +102,18 @@ public class Option : MonoBehaviour
     }
 
 
-    //BGM音量調節(現在はタイトルのみ反映)
+    //BGM音量調節
     public void BGMVolume(float bgmValue)
     {
         mixer.SetFloat("MyExposedParam", bgmValue);
     }
-    //SE音量調節(現在はタイトルのみ反映)
+    //SE音量調節
     public void SEVolume(float volume)
     {
         mixer.SetFloat("SEVol", volume);
-        float v = 0;
-        bool flg = mixer.GetFloat("SEVol", out v);
-        Debug.LogFormat("SEVolume {0} {1} {2}", v, flg, volume);
-        
     }
 
+    /*
     //武器の左右反転
     public void BukiChange()
     {
@@ -131,5 +128,5 @@ public class Option : MonoBehaviour
             buki.text = "スパナ　　鉈";
         }
     }
-    
+    */
 }

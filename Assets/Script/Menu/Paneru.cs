@@ -20,6 +20,7 @@ public class Paneru : MonoBehaviour
     IEnumerator fadeout = null;
     string title_name = null;
 
+
     // 以下公開関数定義
     public System.Action<int> click_callback = null;
 
@@ -120,6 +121,5 @@ public class Paneru : MonoBehaviour
         }
        
     }
-
-
+    
 }

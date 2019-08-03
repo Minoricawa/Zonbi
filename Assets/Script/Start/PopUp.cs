@@ -32,7 +32,6 @@ public class PopUp : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !pause_flag)
         {
             PushPause();
-
         }
     }
 
@@ -75,8 +74,6 @@ public class PopUp : MonoBehaviour
             notes_controller.Pause();
             Time.timeScale = 0;
         }
-        
-
         
     }
     public void ClosePause()

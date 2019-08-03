@@ -98,6 +98,7 @@ public class NoteBase : MonoBehaviour
             });
 
         var cnt = 0;
+
         //「MISS」とログ、自身を消す
         this.UpdateAsObservable()
             .Where(_ => !is_miss_)
@@ -109,7 +110,6 @@ public class NoteBase : MonoBehaviour
                 is_miss_ = true;
                 this.gameObject.SetActive(false);
                 Debug.Log("MISS");
-               // NotesContoller.Combo = 0;
                 if (miss_callback_ != null) miss_callback_();
             });
 

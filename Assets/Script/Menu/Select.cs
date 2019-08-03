@@ -39,6 +39,8 @@ public class Select : MonoBehaviour
         return "";
     }
 
+
+
     void Start()
     {
         sound_length = sound_paneru_list.Count; 
