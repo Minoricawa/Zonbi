@@ -9,16 +9,18 @@ public class Paneru : MonoBehaviour
     public int id;
 
     // 以下メンバ変数定義(SerializeField).
-    [SerializeField] string json_path = null;
+    [SerializeField] AudioSource audio_souce = null;
     [SerializeField] Text author_text = null;
     [SerializeField] Text nando_text = null;
     [SerializeField] Text name_text = null;
+    [SerializeField] Image image = null;
 
     // 以下メンバ変数定義.
     CanvasGroup canvas = null;
     IEnumerator fadein = null;
     IEnumerator fadeout = null;
     string title_name = null;
+    
 
 
     // 以下公開関数定義
@@ -31,30 +33,52 @@ public class Paneru : MonoBehaviour
         get { return title_name; }
     }
 
+    public AudioSource AudioSource
+    {
+        get { return audio_souce; }
+    }
 
+    public void MusicPlay()
+    {
+        if (audio_souce.isPlaying != true)
+        {
+            audio_souce.Play();
+        }
+    }
+
+    public void MusicStop()
+    {
+        if (audio_souce.isPlaying)
+        {
+            audio_souce.Stop();
+        }
+    }
 
 
     void Start()
     {
         canvas = GetComponent<CanvasGroup>();
-        LoadChart();
+        
     }
 
 
 
     // パネルに記載する情報をjsonから拝借、表示
-    void LoadChart()
+    public void Setup(string json_path , AudioClip audio_clip ,string image_path)
     {
+        
         string json_text = Resources.Load<TextAsset>(json_path).ToString();
         JsonNode json = JsonNode.Parse(json_text);
-
         title_name = json["title"].Get<string>();
         name_text.text = title_name;
         author_text.text = json["author"].Get<string>();
         nando_text.text = json["nando"].Get<string>();
-
+        image.sprite = Resources.Load<Sprite>(image_path);
+        audio_souce.clip = audio_clip;
+        
     }
 
+    
 
     
     // フェードをリセット

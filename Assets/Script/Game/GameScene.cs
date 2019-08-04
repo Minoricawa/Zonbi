@@ -18,7 +18,7 @@ public class GameScene : MonoBehaviour
         notes_controller.TimingCallback = OnTiming;
         notes_controller.GoodCallback = OnGood;
         notes_controller.BadCallback = OnBad;
-        notes_controller.PaneruCallback = OnPaneru;
+        notes_controller.MusicFinishCallback = OnMusicFinish;
         select.SetPaneruCallback = OnSetPaneru;
         game_ui.GameoverCallback = OnGameOver;
     }
@@ -73,7 +73,7 @@ public class GameScene : MonoBehaviour
 
 
     // 曲が終わったらパネル復活と最大スコア・コンボ書き換え
-    void OnPaneru()
+    void OnMusicFinish()
     {
         select.OpenPaneruList();
         select.GameUISet();

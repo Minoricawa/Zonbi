@@ -41,7 +41,8 @@ public class NotesContoller : MonoBehaviour
     System.Action<string> timing_callback_ = null;
     System.Action good_callback_ = null;
     System.Action bad_callback_ = null;
-    System.Action paneru_callback_ = null;
+    System.Action music_finish_callback_ = null;
+    JsonNode music_list_json = null;
 
 
     // 以下プロパティ.
@@ -87,9 +88,9 @@ public class NotesContoller : MonoBehaviour
         set { bad_callback_ = value; }
     }
 
-    public System.Action PaneruCallback
+    public System.Action MusicFinishCallback
     {
-        set { paneru_callback_ = value; }
+        set { music_finish_callback_ = value; }
     }
 
 
@@ -106,6 +107,8 @@ public class NotesContoller : MonoBehaviour
 
     void OnEnable()
     {
+
+        LoadMusicListJson();
 
         music = this.GetComponent<AudioSource>();
 
@@ -133,12 +136,13 @@ public class NotesContoller : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => Time.time * 1000 - play_time >= end)
-            .Where(_=> paneru_callback_ != null)
             .Subscribe(_ =>
             {
                 is_playing = false;
-                paneru_callback_();
-            
+                if (music_finish_callback_ != null)
+                {
+                    music_finish_callback_();
+                }
             });
 
         // プレイ中、ボタンを押したタイムを見る
@@ -157,18 +161,35 @@ public class NotesContoller : MonoBehaviour
             });
     }
 
-    
+    // 曲のリストのjsonをロード
+    void LoadMusicListJson()
+    {
+        string json_text = Resources.Load<TextAsset>("Json/music_list").ToString();
+        music_list_json = JsonNode.Parse(json_text);
+    }
+
 
     // jsonからデータを拝借、ノーツを生成しリストへ
     void LoadChart(int id)
     {
+        string json_file = "";
+        string audio_file = "";
+
+        foreach (var music in music_list_json["music_list"])
+        {
+            if (id== int.Parse(music["id"].Get<string>()))
+            {
+                json_file = music["json_file"].Get<string>();
+                audio_file = music["audio_file"].Get<string>();
+            }
+        }
+
         go_index = 0;
         notes_list = new List<GameObject>();
-
-        string jsonText = Resources.Load<TextAsset>(bgm_filePath_list[id]).ToString();
-        music.clip = (AudioClip)Resources.Load(bgm_clipPath_list[id]);
-
-        JsonNode json = JsonNode.Parse(jsonText);
+        
+        music.clip = (AudioClip)Resources.Load(audio_file);
+        string json_text = Resources.Load<TextAsset>(json_file).ToString();
+        JsonNode json = JsonNode.Parse(json_text);
         title = json["title"].Get<string>();
         //    BPM = int.Parse(json["BPM"].Get<string>());
         end = float.Parse(json["end"].Get<string>());

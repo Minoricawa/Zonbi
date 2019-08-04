@@ -8,11 +8,11 @@ public class Select : MonoBehaviour
 {
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] List<Paneru> sound_paneru_list = new List<Paneru>();    // パネルの配列
-    [SerializeField] List<AudioSource> audio_list = new List<AudioSource>();    // サウンドの配列
     [SerializeField] Camera cam = null;
     [SerializeField] Canvas canvas = null;
     [SerializeField] GameObject paneru_container = null;
     [SerializeField] GameObject game_ui = null;
+    JsonNode music_list_json = null;
 
     // 以下メンバ変数定義.
     int max_rot = 180;  // パネルを配置する最大角度
@@ -31,10 +31,12 @@ public class Select : MonoBehaviour
 
     public string GetMusicTitle(int id)
     {
-        Paneru paneru = sound_paneru_list[id];
-        if (paneru != null)
+        foreach(Paneru paneru in sound_paneru_list)
         {
-            return paneru.TitleName;
+            if (paneru.id == id)
+            {
+                return paneru.TitleName;
+            }
         }
         return "";
     }
@@ -43,9 +45,10 @@ public class Select : MonoBehaviour
 
     void Start()
     {
-        sound_length = sound_paneru_list.Count; 
+        LoadJson();
+        CreateSelectPaneru();
+        sound_length = sound_paneru_list.Count;
         SetPosition();
-        SetData();
         game_ui.SetActive(false);
     }
 
@@ -98,7 +101,39 @@ public class Select : MonoBehaviour
 
     }
 
+    // 曲のリストのjsonをロード
+    void LoadJson()
+    {
+        string json_text = Resources.Load<TextAsset>("Json/music_list").ToString();
+        music_list_json = JsonNode.Parse(json_text);
+    }
 
+    // music_list.jsonデータを元にパネルを生成
+    void CreateSelectPaneru()
+    {
+        GameObject prefab = (GameObject)Resources.Load("Prefab/SelectPaneru");
+        
+        foreach (var music in music_list_json["music_list"])
+        {
+            string json_file = music["json_file"].Get<string>();
+            string audio_file = music["audio_file"].Get<string>();
+            string image_file = music["image_file"].Get<string>();
+            int id = int.Parse(music["id"].Get<string>());
+
+            GameObject go = Instantiate(prefab);
+
+            go.transform.SetParent(paneru_container.transform);
+            go.transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
+            Paneru paneru = go.GetComponent<Paneru>();
+            paneru.id = id;            
+            paneru.click_callback = ClickPaneru;
+            sound_paneru_list.Add(paneru);
+            AudioClip audio = Resources.Load(audio_file, typeof(AudioClip)) as AudioClip;
+            paneru.Setup(json_file, audio, image_file);
+            
+        }
+        
+    }
 
     // パネルを扇状に配置
     void SetPosition()
@@ -120,17 +155,7 @@ public class Select : MonoBehaviour
         }
     }
     
-
-    // パネルにID付与
-    void SetData()
-    {
-        for (var i = 0; i < sound_paneru_list.Count; i++)
-        {
-            Paneru paneru = sound_paneru_list[i];
-            paneru.id = i;
-            paneru.click_callback = ClickPaneru;
-        }
-    }
+    
 
     // クリックしたパネルのidをプレイ、ゲームUI表示
     public void ClickPaneru(int id)
@@ -159,24 +184,17 @@ public class Select : MonoBehaviour
     // パネルがアクティブかつプレイ開始していなければ、任意のaudioリストを再生
     void SetActiveSound(int index, bool active)
     {
-        GameObject sound_paneru = sound_paneru_list[index].gameObject;
+        Paneru sound_paneru = sound_paneru_list[index];
         
-
-        AudioSource audio = audio_list[index];
+        
         if (active == true)
         {
-            if (audio.isPlaying != true)
-            {
-                audio.Play();
-            }
+            sound_paneru.MusicPlay();
 
         }
         else
         {
-            if (audio.isPlaying)
-            {
-                audio.Stop();
-            }
+            sound_paneru.MusicStop();
         }
     }
     
