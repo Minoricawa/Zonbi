@@ -469,10 +469,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4179941033177415322}
-  - component: {fileID: 4179941033177415323}
   - component: {fileID: 5419607896240916643}
   - component: {fileID: 6296776973107129188}
-  - component: {fileID: 4179941032428433315}
+  - component: {fileID: 4179941033177415323}
   m_Layer: 8
   m_Name: SelectPaneru
   m_TagString: Untagged
@@ -506,24 +505,6 @@ RectTransform:
   m_AnchoredPosition: {x: -50.1, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4179941033177415323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5493940555079710370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c848d53f5143034aba90eec61705e9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  audio_souce: {fileID: 4179941034472850231}
-  author_text: {fileID: 1318541898276253049}
-  nando_text: {fileID: 7440518720346656080}
-  name_text: {fileID: 304528757272990274}
-  image: {fileID: 570144066246639383}
 --- !u!225 &5419607896240916643
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -589,7 +570,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &4179941032428433315
+--- !u!114 &4179941033177415323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -598,9 +579,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5493940555079710370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f283ba4ff6e54a47aedc680f31a1940, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c848d53f5143034aba90eec61705e9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  audio_souce: {fileID: 4179941034472850231}
+  author_text: {fileID: 1318541898276253049}
+  nando_text: {fileID: 7440518720346656080}
+  name_text: {fileID: 304528757272990274}
+  image: {fileID: 570144066246639383}
   max_combo_text: {fileID: 3194133672831078453}
   max_score_text: {fileID: 2773835140186057726}
 --- !u!1 &5846937189292592083

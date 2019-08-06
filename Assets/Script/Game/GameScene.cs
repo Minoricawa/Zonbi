@@ -8,7 +8,7 @@ public class GameScene : MonoBehaviour
     [SerializeField] GameUI game_ui = null;
     [SerializeField] NotesContoller notes_controller = null;
     [SerializeField] Select select = null;
-    [SerializeField] SelectPaneruContainer select_paneru_container = null;
+    [SerializeField] Paneru paneru = null;
 
 
     // Start is called before the first frame update
@@ -72,13 +72,13 @@ public class GameScene : MonoBehaviour
 
 
 
-    // 曲が終わったらパネル復活と最大スコア・コンボ書き換え
+    // 曲が終わったらパネル表示、最大スコア・コンボ書き換え
     void OnMusicFinish()
     {
         select.OpenPaneruList();
         select.GameUISet();
-        select_paneru_container.MaxCombo();
-        select_paneru_container.MaxScore();
+        paneru.MaxCombo();
+        paneru.MaxScore();
     }
 
 
