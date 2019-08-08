@@ -13,7 +13,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] Text score_log = null;
     [SerializeField] GameObject gameover = null;
     [SerializeField] NotesContoller notes_contoller = null;
-    [SerializeField] GameObject black = null;
+    [SerializeField] GameObject black_out = null;
 
     // 以下メンバ変数定義.
     // string ui_log = null;
@@ -31,7 +31,7 @@ public class GameUI : MonoBehaviour
     void Start()
     {
         gameover.SetActive(false);
-        black.SetActive(false);
+        black_out.SetActive(false);
     }
     
     void Update()
@@ -120,7 +120,7 @@ public class GameUI : MonoBehaviour
     // 体力0になるとゲームオーバー画面へ
     IEnumerator GameOver()
     {
-        black.SetActive(true);
+        black_out.SetActive(true);
 
         yield return new WaitForSeconds(2.8f);
         gameover.SetActive(true);
