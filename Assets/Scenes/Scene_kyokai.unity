@@ -535,8 +535,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 302377384}
   m_HandleRect: {fileID: 1375405293}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 20
+  m_MinValue: -50
+  m_MaxValue: 50
   m_WholeNumbers: 0
   m_Value: 2
   m_OnValueChanged:
@@ -3876,7 +3876,7 @@ RectTransform:
   m_GameObject: {fileID: 534650821}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 1319521322}
   m_RootOrder: 0
@@ -3899,15 +3899,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4339,8 +4339,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 426130421}
   m_HandleRect: {fileID: 1199217840}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 20
+  m_MinValue: -50
+  m_MaxValue: 50
   m_WholeNumbers: 0
   m_Value: 0.5
   m_OnValueChanged:
@@ -6099,7 +6099,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 849191970}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1319521321}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &849191970
@@ -7307,7 +7318,7 @@ MonoBehaviour:
   game_ui: {fileID: 1512685238}
   notes_controller: {fileID: 1443547319}
   select: {fileID: 1443547320}
-  select_paneru_container: {fileID: 0}
+  transition: {fileID: 0}
 --- !u!4 &1021899419
 Transform:
   m_ObjectHideFlags: 0
@@ -8383,8 +8394,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1748982981}
   m_HandleRect: {fileID: 117124947}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 20
+  m_MinValue: -50
+  m_MaxValue: 50
   m_WholeNumbers: 0
   m_Value: 2
   m_OnValueChanged:
@@ -9016,7 +9027,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1175865518}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1319521323}
+        m_MethodName: NextSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1175865518
@@ -9900,6 +9922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d854a3b31312114db357c0a01adef81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  select_: {fileID: 0}
 --- !u!95 &1319521324
 Animator:
   serializedVersion: 3
@@ -11471,6 +11494,8 @@ MonoBehaviour:
   hp_slider: {fileID: 466132911}
   score_log: {fileID: 384145270}
   gameover: {fileID: 1319521321}
+  notes_contoller: {fileID: 1443547319}
+  black: {fileID: 1319521324}
 --- !u!1 &1515510234
 GameObject:
   m_ObjectHideFlags: 0
@@ -13903,6 +13928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d854a3b31312114db357c0a01adef81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  select_: {fileID: 0}
 --- !u!1 &1886927164
 GameObject:
   m_ObjectHideFlags: 0
@@ -14111,8 +14137,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 596416257}
   m_HandleRect: {fileID: 388587236}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 20
+  m_MinValue: -50
+  m_MaxValue: 50
   m_WholeNumbers: 0
   m_Value: 0.5
   m_OnValueChanged:
