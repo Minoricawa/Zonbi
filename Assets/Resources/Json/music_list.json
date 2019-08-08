@@ -1,22 +1,22 @@
 ﻿{
   "music_list": [
     {
-      "id": "1",
-      "json_file": "Json/Its",
-      "audio_file": "Audio/Its_my_Life_sample",
-      "image_file": "Image/my"
-    },
-    {
-      "id": "2",
+      "id": "0",
       "json_file": "Json/Njuyon",
       "audio_file": "Audio/jouen24_sample",
       "image_file": "Image/jouei"
     },
     {
-      "id": "3",
+      "id": "1",
       "json_file": "Json/Yokogao",
       "audio_file": "Audio/yokogao_sample",
       "image_file": "Image/yokogao"
+    },
+    {
+      "id": "2",
+      "json_file": "Json/Its",
+      "audio_file": "Audio/Its_my_Life_sample",
+      "image_file": "Image/my"
     }
   ]
 }

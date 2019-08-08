@@ -1,25 +1,30 @@
-﻿{
-  "title": "上演二十四時間_sample",
-  "BPM": "87.5",
-  "author": "Losstime Life",
-  "nando": "★★★★★",
+{
+	"title":"横顔_sample",
+  "BPM": "131.98",
+  "author": "Caro kissa",
+  "nando": "★☆☆☆☆",
   "end": "18000",
-  "notes": [
-    { "timing": "3263.304" },
-    { "timing": "3959.269" },
-    { "timing": "4621.762" },
-    { "timing": "5268.146" },
-    { "timing": "6974.227" },
-    { "timing": "8365.838" },
-    { "timing": "9741.086" },
-    { "timing": "10105.33" },
-    { "timing": "10486.98" },
-    { "timing": "10834.26" },
-    { "timing": "11530.3" },
-    { "timing": "12192.73" },
-    { "timing": "12872.55" },
-    { "timing": "13534.95" },
-    { "timing": "14230.71" },
-    { "timing": "14926.98" }
-  ]
+	"notes":[
+     {"timing": "2320.102", "lean": "c"},
+     {"timing": "3230.499", "lean": "c"},
+     {"timing": "3644.666", "lean": "c"},
+     {"timing": "4108.539", "lean": "c"},
+     {"timing": "4986.587", "lean": "l"},
+     {"timing": "5915.006", "lean": "r"},
+     {"timing": "6775.767", "lean": "l"},
+     {"timing": "7239.814", "lean": "c"},
+     {"timing": "7703.499", "lean": "c"},
+     {"timing": "8614.666", "lean": "r"},
+     {"timing": "9509.396", "lean": "c"},
+     {"timing": "10437", "lean": "l"},
+     {"timing": "11364.77", "lean": "c"},
+     {"timing": "12358.73", "lean": "l"},
+     {"timing": "12757.01", "lean": "r"},
+     {"timing": "13203.63","lean": "l"},
+     {"timing": "13634.37", "lean": "r"},
+     {"timing": "14098.23", "lean": "l"},
+     {"timing": "14562.1", "lean": "l"},
+     {"timing": "15026.13", "lean": "r"},
+     {"timing": "15506.4", "lean": "c"}
+	]
 }

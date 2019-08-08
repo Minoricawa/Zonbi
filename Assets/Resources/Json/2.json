@@ -1,30 +1,25 @@
-{
-	"title":"横顔_sample",
-  "BPM": "131.98",
-  "author": "Caro kissa",
-  "nando": "★☆☆☆☆",
+﻿{
+  "title": "It's_my_Life_sample",
+  "BPM": "100",
+  "author": "t.tam",
+  "nando": "★★★☆☆",
   "end": "18000",
-	"notes":[
-     {"timing": "2320.102", "lean": "c"},
-     {"timing": "3230.499", "lean": "c"},
-     {"timing": "3644.666", "lean": "c"},
-     {"timing": "4108.539", "lean": "c"},
-     {"timing": "4986.587", "lean": "l"},
-     {"timing": "5915.006", "lean": "r"},
-     {"timing": "6775.767", "lean": "l"},
-     {"timing": "7239.814", "lean": "c"},
-     {"timing": "7703.499", "lean": "c"},
-     {"timing": "8614.666", "lean": "r"},
-     {"timing": "9509.396", "lean": "c"},
-     {"timing": "10437", "lean": "l"},
-     {"timing": "11364.77", "lean": "c"},
-     {"timing": "12358.73", "lean": "l"},
-     {"timing": "12757.01", "lean": "r"},
-     {"timing": "13203.63","lean": "l"},
-     {"timing": "13634.37", "lean": "r"},
-     {"timing": "14098.23", "lean": "l"},
-     {"timing": "14562.1", "lean": "l"},
-     {"timing": "15026.13", "lean": "r"},
-     {"timing": "15506.4", "lean": "c"}
-	]
+  "notes": [
+    { "timing": "5549.838" },
+    { "timing": "6013.937" },
+    { "timing": "6460.635" },
+    { "timing": "6609.93" },
+    { "timing": "7935.067" },
+    { "timing": "8415.501" },
+    { "timing": "8846.667" },
+    { "timing": "8995.334" },
+    { "timing": "10370.86" },
+    { "timing": "10817.67" },
+    { "timing": "11480.78" },
+    { "timing": "12126.93" },
+    { "timing": "12722.83" },
+    { "timing": "13965.33" },
+    { "timing": "14843.76" },
+    { "timing": "15158.24" }
+  ]
 }
