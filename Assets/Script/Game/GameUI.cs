@@ -12,6 +12,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] Slider hp_slider = null;
     [SerializeField] Text score_log = null;
     [SerializeField] GameObject gameover = null;
+    [SerializeField] NotesContoller notes_contoller = null;
+    [SerializeField] GameObject black = null;
 
     // 以下メンバ変数定義.
     // string ui_log = null;
@@ -29,6 +31,7 @@ public class GameUI : MonoBehaviour
     void Start()
     {
         gameover.SetActive(false);
+        black.SetActive(false);
     }
     
     void Update()
@@ -81,13 +84,13 @@ public class GameUI : MonoBehaviour
     // コンボ数を表示
     public void ComboText()
     {
-        combo_log.text = "Combo:" + ((int)NotesContoller.Combo).ToString("000");
+        combo_log.text = "Combo:" + ((int)notes_contoller.Combo).ToString("000");
     }
 
     // コンボ数リセット
     public void ComboReset()
     {
-        NotesContoller.Combo = 0;
+        notes_contoller.Combo = 0;
     }
 
 
@@ -98,25 +101,28 @@ public class GameUI : MonoBehaviour
         hp_slider.value = hp_slider.value - 0.2f;
         if (hp_slider.value <= 0)
         {
-            GameOver();
+            StartCoroutine(GameOver());
         }
     }
 
     // スコア数を表示
     public void ScoreText()
     {
-        score_log.text = "Score:" + ((int)NotesContoller.Score).ToString("000000");
+        score_log.text = "Score:" + ((int)notes_contoller.Score).ToString("000000");
     }
 
     // スコア数リセット
     public void ScoreReset()
     {
-        NotesContoller.Score = 0;
+        notes_contoller.Score = 0;
     }
 
     // 体力0になるとゲームオーバー画面へ
-    void GameOver()
+    IEnumerator GameOver()
     {
+        black.SetActive(true);
+
+        yield return new WaitForSeconds(2.8f);
         gameover.SetActive(true);
         if (gameover_callback != null) gameover_callback();
     }
