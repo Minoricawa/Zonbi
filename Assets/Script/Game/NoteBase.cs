@@ -187,7 +187,7 @@ public class NoteBase : MonoBehaviour
     float py = 0.1f;
     void Update()
     {
-        //ノーツが降ってくる
+        // ノーツが降ってくる
         if (is_show_ )
         {
             dy += py;

@@ -22,9 +22,6 @@ public class Paneru : MonoBehaviour
     IEnumerator fadein = null;
     IEnumerator fadeout = null;
     string title_name = null;
-    int high_combo = 0;
-    int high_score = 0;
-
 
 
     // 以下公開関数定義
@@ -62,10 +59,6 @@ public class Paneru : MonoBehaviour
     void Start()
     {
         canvas = GetComponent<CanvasGroup>();
-        max_combo_text.text = "0000000";
-        max_score_text.text = "0000000";
-        high_combo = 0;
-        high_score = 0;
     }
 
 
@@ -73,7 +66,6 @@ public class Paneru : MonoBehaviour
     // パネルに記載する情報をjsonから拝借、表示
     public void Setup(string json_path , AudioClip audio_clip ,string image_path)
     {
-        
         string json_text = Resources.Load<TextAsset>(json_path).ToString();
         JsonNode json = JsonNode.Parse(json_text);
         title_name = json["title"].Get<string>();
@@ -82,7 +74,8 @@ public class Paneru : MonoBehaviour
         nando_text.text = json["nando"].Get<string>();
         image.sprite = Resources.Load<Sprite>(image_path);
         audio_souce.clip = audio_clip;
-        
+        MaxCombo();
+        MaxScore();
     }
 
     
@@ -153,25 +146,28 @@ public class Paneru : MonoBehaviour
        
     }
 
-
+    
     // 最大コンボなら書き換え
     public void MaxCombo()
     {
-        max_combo_text.text = ((int)NotesContoller.Combo).ToString("0000000");  // きてる、けど変わらない
-        if (NotesContoller.Combo > high_combo)
+        int high_combo = 0;
+        if (PlayerPrefs.HasKey("HighCombo" + id))
         {
-            max_combo_text.text = ((int)NotesContoller.Combo).ToString("0000000");  // きてない
-            high_combo = NotesContoller.Combo;
+            high_combo = PlayerPrefs.GetInt("HighCombo" + id);
         }
+
+        max_combo_text.text = high_combo.ToString("0000000");
     }
 
     // 最大スコアなら書き換え
     public void MaxScore()
     {
-        if (NotesContoller.Score > high_score)
+        int high_score = 0;
+        if (PlayerPrefs.HasKey("HighScore" + id))
         {
-            max_score_text.text = ((int)NotesContoller.Score).ToString("0000000");
-            high_score = NotesContoller.Score;
+            high_score = PlayerPrefs.GetInt("HighScore" + id);
         }
+        max_score_text.text = high_score.ToString("0000000");
     }
+    
 }

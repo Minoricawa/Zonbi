@@ -12,25 +12,14 @@ public class GameScene : MonoBehaviour
     [SerializeField] GameObject fadein_black = null;
 
     // 以下静的メンバ変数定義.
-    static int high_combo = 0;
-    static int high_score = 0;
     int id_ = 0;
-
-    // 以下プロパティ.
-    public static int HighCombo
-    {
-        get { return high_combo; }
-    }
-    public static int HighScore
-    {
-        get { return high_score; }
-    }
+    Paneru paneru;
     
-
-
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
+
         notes_controller.MissCallback = OnMiss;
         notes_controller.TimingCallback = OnTiming;
         notes_controller.GoodCallback = OnGood;
@@ -38,21 +27,17 @@ public class GameScene : MonoBehaviour
         notes_controller.MusicFinishCallback = OnMusicFinish;
         select.SetPaneruCallback = OnSetPaneru;
         game_ui.GameoverCallback = OnGameOver;
+        game_ui.ReplayCallback = OnReaplay;
         //  transition.RetryCallback = OnRetry;
-
-
-        //   high_combo = 0;
-        //   high_score = 0;
-
-
-        fadein_black.SetActive(true);
+        
+        // fadein_black.SetActive(true);
         StartCoroutine("DeleteFadeIn");
     }
 
 
     IEnumerator DeleteFadeIn()
     {
-        yield return new WaitForSeconds(2.8f);
+        yield return new WaitForSeconds(2.5f);
         fadein_black.SetActive(false);
     }
 
@@ -85,12 +70,11 @@ public class GameScene : MonoBehaviour
     // 選曲パネルを決定した時の処理
     void OnSetPaneru(int id)
     {
-        id = id_;
+        id_ = id;
         notes_controller.Play(id);
         game_ui.gameObject.SetActive(true);
-        game_ui.SeUp(select.GetMusicTitle(id));
-        game_ui.ComboReset();
-        game_ui.ScoreReset();
+        game_ui.SetUp(select.GetMusicTitle(id));
+        GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
     }
     
 
@@ -106,8 +90,16 @@ public class GameScene : MonoBehaviour
     {
         Time.timeScale = 0;
         notes_controller.Music.Pause();
+        GameInfo.NowGameStatus = GameInfo.GameStatus.GamgeOver;
     }
 
+    // リプレイ時の処理
+    void OnReaplay()
+    {
+        notes_controller.Replay();
+        game_ui.SetUp();
+        GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
+    }
 
 
     // 曲が終わったらパネル表示、最大スコア・コンボ書き換え
@@ -115,18 +107,30 @@ public class GameScene : MonoBehaviour
     {
         select.OpenPaneruList();
         select.GameUISet();
-        //  paneru.MaxCombo();
-        //  paneru.MaxScore();
 
-        if (notes_controller.Combo > high_combo)
+        int high_combo = 0;
+        if (PlayerPrefs.HasKey("HighCombo" + id_))
         {
-            high_combo = notes_controller.Combo;
+            high_combo = PlayerPrefs.GetInt("HighCombo" + id_);
+        }
+        if (notes_controller.MaxCombo > high_combo)
+        {
+            PlayerPrefs.SetInt("HighCombo" + id_, notes_controller.MaxCombo);
         }
 
+        int high_score = 0;
+        if (PlayerPrefs.HasKey("HighScore" + id_))
+        {
+            high_score = PlayerPrefs.GetInt("HighScore" + id_);
+        }
         if (notes_controller.Score > high_score)
         {
-            high_score = notes_controller.Score;
+            PlayerPrefs.SetInt("HighScore" + id_, notes_controller.Score);
         }
+
+        PlayerPrefs.Save();
+        
+        select.UpdateScore();
     }
 
     /*

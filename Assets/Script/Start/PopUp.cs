@@ -47,7 +47,6 @@ public class PopUp : MonoBehaviour
     {
         pop_up.SetActive(false);
         audio_source.PlayOneShot(se);
-
     }
 
 
@@ -74,7 +73,9 @@ public class PopUp : MonoBehaviour
             notes_controller.Pause();
             Time.timeScale = 0;
         }
-        
+
+        GameInfo.NowGameStatus = GameInfo.GameStatus.Pause;
+
     }
     public void ClosePause()
     {
@@ -86,6 +87,7 @@ public class PopUp : MonoBehaviour
             notes_controller.Resume();
             Time.timeScale = 1;
         }
+        GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
     }
 
     // ゲーム中のオプション画面開閉

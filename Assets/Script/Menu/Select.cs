@@ -12,7 +12,6 @@ public class Select : MonoBehaviour
     [SerializeField] Canvas canvas = null;
     [SerializeField] GameObject paneru_container = null;
     [SerializeField] GameObject game_ui = null;
-    JsonNode music_list_json = null;
 
     // 以下メンバ変数定義.
     int max_rot = 180;  // パネルを配置する最大角度
@@ -22,11 +21,13 @@ public class Select : MonoBehaviour
     int paneru_y = 4;
     float prev_cam_rot_y = 0;
     System.Action<int> set_paneru_callback = null;   // 決定した時に呼ぶ
+    JsonNode music_list_json = null;
 
     // 以下プロパティ.
     public System.Action<int> SetPaneruCallback
     {
         set { set_paneru_callback = value; }
+        get { return set_paneru_callback; }
     }
 
     public string GetMusicTitle(int id)
@@ -41,10 +42,20 @@ public class Select : MonoBehaviour
         return "";
     }
 
-
+    // 最大コンボ・スコアの更新
+    public void UpdateScore()
+    {
+        for (var i = 0; i < sound_length; i++)
+        {
+            Paneru paneru = sound_paneru_list[i];
+            paneru.MaxScore();
+            paneru.MaxCombo();
+        }
+    }
 
     void Start()
     {
+        GameInfo.NowGameStatus = GameInfo.GameStatus.Select;
         LoadJson();
         CreateSelectPaneru();
         sound_length = sound_paneru_list.Count;
@@ -130,7 +141,6 @@ public class Select : MonoBehaviour
             sound_paneru_list.Add(paneru);
             AudioClip audio = Resources.Load(audio_file, typeof(AudioClip)) as AudioClip;
             paneru.Setup(json_file, audio, image_file);
-            
         }
         
     }
@@ -151,7 +161,6 @@ public class Select : MonoBehaviour
             paneru.transform.localPosition = new Vector3(x, paneru_y, z);
 
             paneru.transform.localRotation = Quaternion.Euler(0, rot * i - 60, 0);
-            
         }
     }
     
@@ -162,7 +171,7 @@ public class Select : MonoBehaviour
     {
         HidePaneruList();
         if (set_paneru_callback != null) set_paneru_callback(id);
-        
+        Debug.Log(id);
     }
     
 
@@ -190,7 +199,6 @@ public class Select : MonoBehaviour
         if (active == true)
         {
             sound_paneru.MusicPlay();
-
         }
         else
         {

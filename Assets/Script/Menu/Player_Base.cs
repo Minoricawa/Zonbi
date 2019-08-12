@@ -22,7 +22,7 @@ public class Player_Base : MonoBehaviour
         float Yrot = Input.GetAxis("Mouse Y");
 
 
-        //視点操作、上下左右反転
+        // 視点操作、上下左右反転
         if (Option.eyes_lr && Option.eyes_ud)
         {
             camera_.transform.Rotate(-Yrot, 0, 0);

@@ -10,28 +10,34 @@ public class GameUI : MonoBehaviour
     [SerializeField] Text combo_log = null;
     [SerializeField] Text title = null;
     [SerializeField] Slider hp_slider = null;
-    [SerializeField] Text score_log = null;
-    [SerializeField] GameObject gameover = null;
+    [SerializeField] Text score_log = null;    
     [SerializeField] NotesContoller notes_contoller = null;
-    [SerializeField] GameObject black_out = null;
+    [SerializeField] GameOver game_over = null;
+    
 
     // 以下メンバ変数定義.
     // string ui_log = null;
     System.Action gameover_callback = null;
+    System.Action replay_callback = null;
 
 
     // 以下プロパティ.
     public System.Action GameoverCallback
     {
-        set { gameover_callback = value; }
+        set { game_over.GameoverCallback = value; }
     }
-    
+
+    public System.Action ReplayCallback
+    {
+        set { game_over.ReplayCallback = value; }
+    }
+
 
 
     void Start()
     {
-        gameover.SetActive(false);
-        black_out.SetActive(false);
+        
+        
     }
     
     void Update()
@@ -40,10 +46,10 @@ public class GameUI : MonoBehaviour
     }
 
     // 初期設定
-    public void SeUp(string title_str)
+    public void SetUp(string title_str = "")
     {
         combo_log.text = "Combo:000";
-        title.text = title_str;
+        if (title_str != "") title.text = title_str;
         hp_slider.value = 1;
         score_log.text = "Score:000000";
     }
@@ -86,13 +92,7 @@ public class GameUI : MonoBehaviour
     {
         combo_log.text = "Combo:" + ((int)notes_contoller.Combo).ToString("000");
     }
-
-    // コンボ数リセット
-    public void ComboReset()
-    {
-        notes_contoller.Combo = 0;
-    }
-
+    
 
     // HPバーを減らす
     public void Damage()
@@ -101,7 +101,7 @@ public class GameUI : MonoBehaviour
         hp_slider.value = hp_slider.value - 0.2f;
         if (hp_slider.value <= 0)
         {
-            StartCoroutine(GameOver());
+            game_over.Show();
         }
     }
 
@@ -110,21 +110,7 @@ public class GameUI : MonoBehaviour
     {
         score_log.text = "Score:" + ((int)notes_contoller.Score).ToString("000000");
     }
-
-    // スコア数リセット
-    public void ScoreReset()
-    {
-        notes_contoller.Score = 0;
-    }
-
-    // 体力0になるとゲームオーバー画面へ
-    IEnumerator GameOver()
-    {
-        black_out.SetActive(true);
-
-        yield return new WaitForSeconds(2.8f);
-        gameover.SetActive(true);
-        if (gameover_callback != null) gameover_callback();
-    }
     
+    
+
 }

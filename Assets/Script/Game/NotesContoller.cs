@@ -19,8 +19,6 @@ public class NotesContoller : MonoBehaviour
 
     // 以下静的メンバ変数定義.
    // static string log = null;
-    static int combo = 0;
-    static int score = 0;
 
     // 以下メンバ変数定義.
     int id_;
@@ -43,6 +41,9 @@ public class NotesContoller : MonoBehaviour
     System.Action bad_callback_ = null;
     System.Action music_finish_callback_ = null;
     JsonNode music_list_json = null;
+    int combo = 0;
+    int max_combo = 0;
+    int score = 0;
 
 
     // 以下プロパティ.
@@ -56,13 +57,17 @@ public class NotesContoller : MonoBehaviour
         get { return music; }
     }
 
-    public static int Combo
+    public int Combo
     {
         get { return combo; }
-        set { combo = value; }
     }
 
-    public static int Score
+    public int MaxCombo
+    {
+        get { return max_combo; }
+    }
+
+    public int Score
     {
         get { return score; }
         set { score = value; }
@@ -92,9 +97,7 @@ public class NotesContoller : MonoBehaviour
     {
         set { music_finish_callback_ = value; }
     }
-
-
-
+    
     public void Pause()
     {
         music.Pause();
@@ -126,16 +129,18 @@ public class NotesContoller : MonoBehaviour
             .Where(_ => is_playing)
             .Where(_ => notes_list.Count > go_index)
             .Where(_ => notes_list[go_index].GetComponent<NoteBase>().GetTiming() <= ((Time.time * 1000 - (play_time - 500)) + during))
+            .Where(_ => GameInfo.NowGameStatus == GameInfo.GameStatus.Play)
             .Subscribe(_ => {
                 NotesShow(notes_list[go_index]);
                 notes_list[go_index].GetComponent<NoteBase>().Go(distance, during, go_index);
                 go_index++;
             });
 
-        // 曲が終わったらパネル復活のコールバック起動
+        // 曲が終わったらパネル表示のコールバック起動
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => Time.time * 1000 - play_time >= end)
+            .Where(_ => GameInfo.NowGameStatus == GameInfo.GameStatus.Play)
             .Subscribe(_ =>
             {
                 is_playing = false;
@@ -149,6 +154,7 @@ public class NotesContoller : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => Input.GetMouseButtonDown(0))
+            .Where(_ => GameInfo.NowGameStatus==GameInfo.GameStatus.Play)
             .Subscribe(_ => {
                 Beat(Time.time * 1000 - play_time);
             });
@@ -156,11 +162,12 @@ public class NotesContoller : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => is_playing)
             .Where(_ => Input.GetMouseButtonDown(1))
+            .Where(_ => GameInfo.NowGameStatus == GameInfo.GameStatus.Play)
             .Subscribe(_ => {
                 Beat(Time.time * 1000 - play_time);
             });
     }
-
+    
     // 曲のリストのjsonをロード
     void LoadMusicListJson()
     {
@@ -177,7 +184,7 @@ public class NotesContoller : MonoBehaviour
 
         foreach (var music in music_list_json["music_list"])
         {
-            if (id== int.Parse(music["id"].Get<string>()))
+            if (id == int.Parse(music["id"].Get<string>()))
             {
                 json_file = music["json_file"].Get<string>();
                 audio_file = music["audio_file"].Get<string>();
@@ -216,6 +223,17 @@ public class NotesContoller : MonoBehaviour
 
     }
 
+    //　ノーツ削除
+    void RemoveNotes()
+    {
+        if (notes_list == null) return;
+        foreach(GameObject notes in notes_list)
+        {
+            notes.transform.SetParent(null);
+            Destroy(notes);
+        }
+    }
+
     // ミスをした場合の処理
     void OnMiss()
     {
@@ -229,6 +247,10 @@ public class NotesContoller : MonoBehaviour
     void OnGood()
     {
         combo++;
+        if (max_combo < combo)
+        {
+            max_combo = combo;
+        }
         score += 1000;
         if (timing_callback_ != null) timing_callback_("good");
         if (good_callback_ != null) good_callback_();
@@ -241,9 +263,7 @@ public class NotesContoller : MonoBehaviour
         if (timing_callback_ != null) timing_callback_("bad");
         if (bad_callback_ != null) bad_callback_();
     }
-
-
-
+    
     // ノーツのレーン分け
     void SetLean(GameObject note, string lean)
     {
@@ -264,6 +284,12 @@ public class NotesContoller : MonoBehaviour
         }
     }
 
+    // リプレイ
+    public void Replay()
+    {
+        RemoveNotes();
+        Play(id_);
+    }
 
     // 開始フラグを立て、値を管理。曲再生。
     public void Play(int id)
@@ -273,10 +299,12 @@ public class NotesContoller : MonoBehaviour
         music.Play();
         play_time = Time.time * 1000;
         is_playing = true;
+        max_combo = 0;
+        combo = 0;
+        score = 0;
+        Time.timeScale = 1;
     }
     
-    
-
     // ノーツ登場
     void NotesShow(GameObject notes)
     {
@@ -290,8 +318,7 @@ public class NotesContoller : MonoBehaviour
     {
         notes.transform.localPosition = new Vector3(notes.transform.localPosition.x, -1000, notes.transform.localPosition.z);
     }
-
-
+    
     // timingと一番近いタイミングのノーツを探す
     void Beat(float timing)
     {
