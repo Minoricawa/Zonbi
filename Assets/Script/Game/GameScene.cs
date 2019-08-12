@@ -37,7 +37,7 @@ public class GameScene : MonoBehaviour
 
     IEnumerator DeleteFadeIn()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1.8f);
         fadein_black.SetActive(false);
     }
 
