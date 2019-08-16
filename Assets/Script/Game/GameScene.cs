@@ -11,7 +11,7 @@ public class GameScene : MonoBehaviour
     //  [SerializeField] Transition transition = null;
     [SerializeField] GameObject fadein_black = null;
 
-    // 以下静的メンバ変数定義.
+    // 以下メンバ変数定義.
     int id_ = 0;
     Paneru paneru;
     
@@ -133,14 +133,7 @@ public class GameScene : MonoBehaviour
         select.UpdateScore();
     }
 
-    /*
-    // リトライ
-    void OnRetry(int id)
-    {
-        OnSetPaneru(id);
-    }
-    */
-
+    
     // Update is called once per frame
     void Update()
     {

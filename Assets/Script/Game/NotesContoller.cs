@@ -18,10 +18,10 @@ public class NotesContoller : MonoBehaviour
     [SerializeField] Transform lean_right = null;
 
     // 以下静的メンバ変数定義.
-   // static string log = null;
+    // static string log = null;
 
     // 以下メンバ変数定義.
-    int id_;
+    int id_ = 0;
     string title = null;
     // int BPM = 0;
     float end = 0;
@@ -294,6 +294,7 @@ public class NotesContoller : MonoBehaviour
     // 開始フラグを立て、値を管理。曲再生。
     public void Play(int id)
     {
+        id_ = id;
         LoadChart(id);
         music.Stop();
         music.Play();
