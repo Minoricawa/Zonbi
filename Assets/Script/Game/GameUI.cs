@@ -17,8 +17,6 @@ public class GameUI : MonoBehaviour
 
     // 以下メンバ変数定義.
     // string ui_log = null;
-    System.Action gameover_callback = null;
-    System.Action replay_callback = null;
 
 
     // 以下プロパティ.
