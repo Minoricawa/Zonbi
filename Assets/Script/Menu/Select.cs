@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Valve.VR;
 
 public class Select : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class Select : MonoBehaviour
     float prev_cam_rot_y = 0;
     System.Action<int> set_paneru_callback = null;   // 決定した時に呼ぶ
     JsonNode music_list_json = null;
+    int active_paneru_id = 0;
 
     // 以下プロパティ.
     public System.Action<int> SetPaneruCallback
@@ -70,7 +72,18 @@ public class Select : MonoBehaviour
         {
             return;
         }
-        
+
+        // トリガーボタンが押されたら
+        if (SteamVR_Actions.default_InteractUI.GetStateUp(SteamVR_Input_Sources.Any))
+        {
+            if (active_paneru_id > 0)
+            {
+                ClickPaneru(active_paneru_id);
+            }
+            
+        }
+
+
         float cam_rot_y = cam.gameObject.transform.rotation.eulerAngles.y + 90;
         float cam_rot_x = cam.gameObject.transform.rotation.eulerAngles.x;
         cam_rot_y = cam_rot_y % 360;
@@ -82,7 +95,7 @@ public class Select : MonoBehaviour
             return;
         }
 
-        
+        int active_id = -1;
         // 出現させる範囲設定
         int rot = max_rot / sound_length;  // 60;
         for (var i = 0; i < sound_length; i++)
@@ -100,6 +113,7 @@ public class Select : MonoBehaviour
             {
                 paneru.FadeIn();
                 SetActiveSound(i, true);
+                active_id = sound_paneru_list[i].id;
             }
             else
             {
@@ -107,6 +121,8 @@ public class Select : MonoBehaviour
                 SetActiveSound(i, false);
             }
         }
+
+        active_paneru_id = active_id;
 
         prev_cam_rot_y = cam_rot_y;
 

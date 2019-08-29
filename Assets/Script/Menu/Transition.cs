@@ -56,7 +56,7 @@ public class Transition : MonoBehaviour
     public void GameExit()
     {
         //UnityEditor.EditorApplication.isPlaying = false;
-       // Application.Quit();
+        Application.Quit();
     }
 
     /*

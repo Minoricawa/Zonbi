@@ -5,6 +5,9 @@
 /[Bb]uilds/
 /Assets/AssetStoreTools*
 
+#build files
+Zombeats/
+
 # Visual Studio cache directory
 .vs/
 

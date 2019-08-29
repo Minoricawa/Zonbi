@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.zonbi.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\workspace\\Ganbari\\Zonbi\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "Zonbi [Testing]"
+        }
+      }
+    }
+  ]
+}
