@@ -36,7 +36,7 @@ public class Controller : MonoBehaviour
             beam.SetPosition(0, this.transform.position);
             beam.SetPosition(1, hit.point);
 
-            if (reticle == null)
+            if (reticle != null)
             {
                 reticle.transform.position = hit.point;
             }
