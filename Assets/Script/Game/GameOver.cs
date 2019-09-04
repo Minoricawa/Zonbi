@@ -7,9 +7,11 @@ public class GameOver : MonoBehaviour
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] GameObject gameover = null;
     [SerializeField] GameObject black_out = null;
+    [SerializeField] GameObject set = null;
+    [SerializeField] GameObject point_light = null;
+    [SerializeField] GameObject notes = null;
 
     // 以下メンバ変数定義.
-    // string ui_log = null;
     System.Action replay_callback = null;
     System.Action gameover_callback = null;
     bool is_show = false;
@@ -29,6 +31,9 @@ public class GameOver : MonoBehaviour
     {
         gameover.SetActive(false);
         black_out.SetActive(false);
+        set.SetActive(true);
+        point_light.SetActive(true);
+        notes.SetActive(true);
     }
 
     // Update is called once per frame
@@ -50,6 +55,9 @@ public class GameOver : MonoBehaviour
         black_out.SetActive(false);
         gameover.SetActive(false);
         is_show = false;
+        set.SetActive(true);
+        point_light.SetActive(true);
+        notes.SetActive(true);
     }
 
     // 体力0になるとゲームオーバー画面へ
@@ -60,6 +68,10 @@ public class GameOver : MonoBehaviour
         yield return new WaitForSeconds(2.8f);
         gameover.SetActive(true);
         if (gameover_callback != null) gameover_callback();
+        set.SetActive(false);
+        point_light.SetActive(false);
+        notes.SetActive(false);
+        black_out.SetActive(false);
     }
 
     
