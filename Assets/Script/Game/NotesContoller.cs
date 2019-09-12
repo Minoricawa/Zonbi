@@ -115,8 +115,8 @@ public class NotesContoller : MonoBehaviour
 
         music = this.GetComponent<AudioSource>();
 
-        distance = Mathf.Abs(beat_point.position.z - spawn_point.position.z); // 距離
-        distance = Mathf.Abs(beat_point.position.z - spawn_point.position.z); // 距離
+        distance = Mathf.Abs(beat_point.localPosition.z - spawn_point.localPosition.z); // 距離
+        distance = Mathf.Abs(beat_point.localPosition.z - spawn_point.localPosition.z); // 距離
         during = 3 * 1000;  // かかる時間
         is_playing = false;
         go_index = 0;
@@ -209,7 +209,7 @@ public class NotesContoller : MonoBehaviour
             float timing = float.Parse(note["timing"].Get<string>());
             GameObject notes;
             float xrandam = (float)r.Next(-20, 20) / 10; // ブレ幅
-            notes = Instantiate(zombie_notes, new Vector3(spawn_point.position.x + xrandam, spawn_point.position.y, spawn_point.position.z), Quaternion.Euler(0, 180, 0));
+            notes = Instantiate(zombie_notes, new Vector3(spawn_point.localPosition.x + xrandam, spawn_point.localPosition.y, spawn_point.localPosition.z), Quaternion.Euler(0, 180, 0));
             SetLean(notes, note["lean"].Get<string>());
             notes.GetComponent<NoteBase>().SetParameter(timing);
             notes.GetComponent<NoteBase>().MissCallback = OnMiss;

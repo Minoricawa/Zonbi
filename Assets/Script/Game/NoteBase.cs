@@ -27,7 +27,6 @@ public class NoteBase : MonoBehaviour
     Animator note_ = null;
     AudioSource audio_source_ = null;
     int id_ = 0;
-    GameUI game_ui;
     System.Action miss_callback_ = null;
     bool is_miss_ = false;
 
@@ -71,8 +70,8 @@ public class NoteBase : MonoBehaviour
             .Subscribe(_ => {
 
                 float time_ratio = (Time.time * 1000 - go_time_) / during_;
-                float rot_y = this.gameObject.transform.rotation.eulerAngles.y - 180;
-                float radian2 = GetAim(new Vector2(-3, 0), new Vector2(this.transform.position.z, this.transform.position.x));
+                float rot_y = this.gameObject.transform.localRotation.eulerAngles.y - 180;
+                float radian2 = GetAim(new Vector2(-3, 0), new Vector2(this.transform.localPosition.z, this.transform.localPosition.x));
                 
                 rot_y = radian2;
                 float radius = distance_ * time_ratio;

@@ -49,7 +49,7 @@ public class Transition : MonoBehaviour
     // セレクト画面へ
     public void NextSelect()
     {
-        SceneManager.LoadScene("Scene_kyokai");
+        SceneManager.LoadScene("Scene_kyokai", LoadSceneMode.Single);
     }
 
     // ゲーム終了

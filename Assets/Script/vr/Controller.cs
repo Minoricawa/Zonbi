@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
+using UnityEngine.EventSystems;
 
 public class Controller : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Controller : MonoBehaviour
     public SteamVR_Input_Sources hand;
     public SteamVR_Action_Boolean grabAction;
     public SteamVR_Input_Sources HandType;
+    
 
 
 
@@ -23,15 +25,19 @@ public class Controller : MonoBehaviour
         beam.positionCount = 2;
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
 
         Ray ray = new Ray(this.transform.position, this.transform.forward);
-        RaycastHit hit;
+        RaycastHit hit; 
 
         if (Physics.Raycast(ray, out hit))
         {
+
+            Debug.Log(hit.collider.name);
 
             beam.SetPosition(0, this.transform.position);
             beam.SetPosition(1, hit.point);
@@ -40,6 +46,8 @@ public class Controller : MonoBehaviour
             {
                 reticle.transform.position = hit.point;
             }
+
+            
 
             if (SteamVR_Actions.default_Teleport.GetStateDown(HandType))
             {
@@ -55,6 +63,12 @@ public class Controller : MonoBehaviour
 
         }
 
+
+        if (SteamVR_Actions.default_Teleport.GetStateDown(HandType))
+        {
+            Debug.Log("Click");
+            
+        }
 
     }
 }

@@ -67,6 +67,8 @@ public class Select : MonoBehaviour
 
     private void Update() // 毎フレーム実行
     {
+        if (!paneru_container.activeSelf) return;
+
         // プレイ中は処理しない
         if (canvas.GetComponent<NotesContoller>().IsPlaying == true)
         {
@@ -74,17 +76,22 @@ public class Select : MonoBehaviour
         }
 
         // トリガーボタンが押されたら
-        if (SteamVR_Actions.default_InteractUI.GetStateUp(SteamVR_Input_Sources.Any))
+        if (SteamVR_Actions.default_InteractUI.GetStateDown(SteamVR_Input_Sources.Any) && up_flg_)
         {
-            if (active_paneru_id > 0)
+            if (active_paneru_id >= 0)
             {
                 ClickPaneru(active_paneru_id);
             }
             
         }
 
+        if (SteamVR_Actions.default_InteractUI.GetStateUp(SteamVR_Input_Sources.Any))
+        {
+            up_flg_ = true;
+        }
 
-        float cam_rot_y = cam.gameObject.transform.rotation.eulerAngles.y + 90;
+
+            float cam_rot_y = cam.gameObject.transform.rotation.eulerAngles.y + 90;
         float cam_rot_x = cam.gameObject.transform.rotation.eulerAngles.x;
         cam_rot_y = cam_rot_y % 360;
        
@@ -117,7 +124,11 @@ public class Select : MonoBehaviour
             }
             else
             {
-                paneru.FadeOut(0.2f);
+                if (paneru.isActiveAndEnabled)
+                {
+                    paneru.FadeOut(0.2f);
+                }
+                
                 SetActiveSound(i, false);
             }
         }
@@ -189,8 +200,8 @@ public class Select : MonoBehaviour
         if (set_paneru_callback != null) set_paneru_callback(id);
         Debug.Log(id);
     }
-    
 
+    bool up_flg_ = false;
 
     // すべての曲パネルを消す
     public void HidePaneruList()
@@ -201,6 +212,7 @@ public class Select : MonoBehaviour
     // すべての曲パネルを出す
     public void OpenPaneruList()
     {
+        up_flg_ = false;
         paneru_container.SetActive(true);
     }
 

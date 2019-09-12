@@ -101,6 +101,7 @@ public class Paneru : MonoBehaviour
    // フェード
     public void FadeIn(float speed = 5)
     {
+        if (!this.isActiveAndEnabled) return;
         if (canvas == null) return;
         RsetFade();
         fadein = FadeInTime(1, speed);
@@ -109,6 +110,7 @@ public class Paneru : MonoBehaviour
 
     public void FadeOut(float alpha ,float speed = 5)
     {
+        if (!this.isActiveAndEnabled) return;
         if (canvas == null) return;
         RsetFade();
         fadeout = FadeOutTime(alpha, speed);

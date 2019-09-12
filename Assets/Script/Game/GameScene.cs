@@ -75,6 +75,11 @@ public class GameScene : MonoBehaviour
         game_ui.gameObject.SetActive(true);
         game_ui.SetUp(select.GetMusicTitle(id));
         GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
+
+        Debug.Log("OnSetPaneru");
+        Debug.Log(game_ui.gameObject);
+        Debug.Log(game_ui.gameObject.activeSelf);
+
     }
     
 
