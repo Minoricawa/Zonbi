@@ -8,15 +8,30 @@ using Valve.VR;
 
 public class LaserController : MonoBehaviour
 {
-
+    // 以下メンバ変数定義.
     protected GameObject laser;
     protected GameObject cursor;
 
     public float thickness = 0.002f;
     public float cursorSize = 0.04f;
     public Color laserColor = new Color(1, 1, 0);
-
     public SteamVR_Input_Sources HandType;
+    public System.Action hit_callback;
+
+    GameObject hit_note = null;
+
+
+    // 以下プロパティ.
+    public System.Action HitCallback
+    {
+        get { return hit_callback; }
+        set { hit_callback = value; }
+    }
+
+    public GameObject HitNote
+    {
+        get { return hit_note; }
+    }
 
     void Start()
     {
@@ -59,7 +74,15 @@ public class LaserController : MonoBehaviour
     void Update()
     {
         //LaserInputModule.test = SteamVR_Actions.default_Teleport.GetStateDown(HandType);
+    }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (hit_note == other) return;
+        if (other.tag != "enemy") return;
+        hit_note = other.gameObject;
+        if (hit_callback != null) hit_callback();
+        
 
     }
 }

@@ -10,6 +10,8 @@ public class GameScene : MonoBehaviour
     [SerializeField] Select select = null;
     //  [SerializeField] Transition transition = null;
     [SerializeField] GameObject fadein_black = null;
+    [SerializeField] LaserController laser_controllerL = null;
+    [SerializeField] LaserController laser_controllerR = null;
 
     // 以下メンバ変数定義.
     int id_ = 0;
@@ -28,6 +30,8 @@ public class GameScene : MonoBehaviour
         select.SetPaneruCallback = OnSetPaneru;
         game_ui.GameoverCallback = OnGameOver;
         game_ui.ReplayCallback = OnReaplay;
+        laser_controllerL.HitCallback = OnHitL;
+        laser_controllerR.HitCallback = OnHitR;
         //  transition.RetryCallback = OnRetry;
         
         // fadein_black.SetActive(true);
@@ -42,8 +46,16 @@ public class GameScene : MonoBehaviour
     }
 
 
-
-
+    void OnHitL()
+    {
+        notes_controller.HitNote = laser_controllerL.HitNote;
+        notes_controller.Hit();
+    }
+    void OnHitR()
+    {
+        notes_controller.HitNote = laser_controllerR.HitNote;
+        notes_controller.Hit();
+    }
 
     // ミスをした場合の処理
     void OnMiss()

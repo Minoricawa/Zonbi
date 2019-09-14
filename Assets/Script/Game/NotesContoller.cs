@@ -23,7 +23,6 @@ public class NotesContoller : MonoBehaviour
     // 以下メンバ変数定義.
     int id_ = 0;
     string title = null;
-    // int BPM = 0;
     float end = 0;
     List<GameObject> notes_list;
     float distance = 0.0f;
@@ -44,6 +43,9 @@ public class NotesContoller : MonoBehaviour
     int combo = 0;
     int max_combo = 0;
     int score = 0;
+    bool hit = false;
+    int notes_number = 0;
+    GameObject hit_note_ = null;
 
 
     // 以下プロパティ.
@@ -97,6 +99,15 @@ public class NotesContoller : MonoBehaviour
     {
         set { music_finish_callback_ = value; }
     }
+
+    public GameObject HitNote
+    {
+        get { return hit_note_; }
+        set { hit_note_ = value; }
+    }
+
+
+
     
     public void Pause()
     {
@@ -110,18 +121,18 @@ public class NotesContoller : MonoBehaviour
 
     void OnEnable()
     {
+        hit = false;
 
         LoadMusicListJson();
 
         music = this.GetComponent<AudioSource>();
 
         distance = Mathf.Abs(beat_point.localPosition.z - spawn_point.localPosition.z); // 距離
-        distance = Mathf.Abs(beat_point.localPosition.z - spawn_point.localPosition.z); // 距離
         during = 3 * 1000;  // かかる時間
         is_playing = false;
         go_index = 0;
         check_range = 110;
-        beat_range = 80;
+        beat_range = 50;
 
 
         // ノーツを出現
@@ -150,6 +161,7 @@ public class NotesContoller : MonoBehaviour
                 }
             });
 
+        /*
         // プレイ中、ボタンを押したタイムを見る
         this.UpdateAsObservable()
             .Where(_ => is_playing)
@@ -166,6 +178,19 @@ public class NotesContoller : MonoBehaviour
             .Subscribe(_ => {
                 Beat(Time.time * 1000 - play_time);
             });
+        */
+
+        /*
+        // プレイ中、ノーツに当たったタイムを見る
+        this.UpdateAsObservable()
+            .Where(_ => is_playing)
+            .Where(_ => hit)
+            .Subscribe(_ =>
+            {
+                BeatHit(Time.time * 1000 - play_time, notes_number);
+                hit = false;
+            });
+            */
     }
     
     // 曲のリストのjsonをロード
@@ -239,7 +264,7 @@ public class NotesContoller : MonoBehaviour
     {
         combo = 0;
         Debug.Log("NotesContoller OnMiss");
-        if(miss_callback_ != null) miss_callback_();
+        if (miss_callback_ != null) miss_callback_();
         if (timing_callback_ != null) timing_callback_("miss");
     }
 
@@ -267,19 +292,20 @@ public class NotesContoller : MonoBehaviour
     // ノーツのレーン分け
     void SetLean(GameObject note, string lean)
     {
+        note.transform.SetParent(lean_center, false);
+        Vector3 pos = note.transform.localPosition;
+
         switch (lean)
         {
             case "c":
-                note.transform.SetParent(lean_center, false);
                 break;
             case "l":
-                note.transform.SetParent(lean_left, false);
+                note.transform.localPosition = new Vector3(pos.x + 5, pos.y, pos.z);
                 break;
             case "r":
-                note.transform.SetParent(lean_right, false);
+                note.transform.localPosition = new Vector3(pos.x - 5, pos.y, pos.z);
                 break;
             default:
-                note.transform.SetParent(lean_center, false);
                 break;
         }
     }
@@ -319,7 +345,9 @@ public class NotesContoller : MonoBehaviour
     {
         notes.transform.localPosition = new Vector3(notes.transform.localPosition.x, -1000, notes.transform.localPosition.z);
     }
-    
+
+
+    /*
     // timingと一番近いタイミングのノーツを探す
     void Beat(float timing)
     {
@@ -358,5 +386,30 @@ public class NotesContoller : MonoBehaviour
             }
         }
     }
+    */
 
+    // timingと当たったノーツtimingとの差を見る
+    void BeatHit(float timing, int notes_number)
+    {
+        float diff = Math.Abs(note_timings[notes_number] - timing);　// 差
+        if (diff < 0) diff *= -1;
+
+        if (diff < beat_range)
+        {
+            OnGood();
+        } else
+        {
+            OnBad();
+        }
+    }
+
+
+    public void Hit()
+    {
+        
+        notes_number = notes_list.IndexOf(hit_note_);
+        notes_list[notes_number].SendMessage("OnHitBullet");
+        BeatHit(Time.time * 1000 - play_time, notes_number);
+        hit = true;
+    }
 }

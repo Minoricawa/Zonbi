@@ -10,6 +10,7 @@ public class GameOver : MonoBehaviour
     [SerializeField] GameObject set = null;
     [SerializeField] GameObject point_light = null;
     [SerializeField] GameObject notes = null;
+    [SerializeField] GameObject play_ui = null;
 
     // 以下メンバ変数定義.
     System.Action replay_callback = null;
@@ -34,6 +35,7 @@ public class GameOver : MonoBehaviour
         set.SetActive(true);
         point_light.SetActive(true);
         notes.SetActive(true);
+        play_ui.SetActive(true);
     }
 
     // Update is called once per frame
@@ -72,6 +74,7 @@ public class GameOver : MonoBehaviour
         point_light.SetActive(false);
         notes.SetActive(false);
         black_out.SetActive(false);
+        play_ui.SetActive(false);
     }
 
     

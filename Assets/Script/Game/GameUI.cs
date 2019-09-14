@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Valve.VR;
 
 public class GameUI : MonoBehaviour
 {
@@ -13,11 +14,13 @@ public class GameUI : MonoBehaviour
     [SerializeField] Text score_log = null;    
     [SerializeField] NotesContoller notes_contoller = null;
     [SerializeField] GameOver game_over = null;
-    
+    [SerializeField] GameObject now_option = null;
+    [SerializeField] GameObject pause = null;
+
 
     // 以下メンバ変数定義.
     // string ui_log = null;
-
+    bool pause_flag = false;
 
     // 以下プロパティ.
     public System.Action GameoverCallback
@@ -31,16 +34,29 @@ public class GameUI : MonoBehaviour
     }
 
 
+ //   var trackedObject = GetComponent<SteamVR_TrackedObject>();
+ //   var device = SteamVR_Controller.Input((int)trackedObject.index);
+
+
+
 
     void Start()
     {
-        
-        
+        pause_flag = false;
+        pause.SetActive(false);
+        now_option.SetActive(false);
     }
     
     void Update()
     {
-
+        if (SteamVR_Actions.default_Teleport.GetStateDown(SteamVR_Input_Sources.Any))
+        {
+            PushPause();
+        }
+        if (SteamVR_Actions.default_Teleport.GetStateUp(SteamVR_Input_Sources.Any))
+        {
+            ClosePause();
+        }
     }
 
     // 初期設定
@@ -108,7 +124,48 @@ public class GameUI : MonoBehaviour
     {
         score_log.text = "Score:" + ((int)notes_contoller.Score).ToString("000000");
     }
-    
+
+
+    // ポーズ画面開閉
+    public void PushPause()
+    {
+         pause_flag = true;
+        
+         pause.SetActive(true);
+
+         GameObject go = GameObject.Find("SelectPaneru");
+         if (go != null)
+         {
+             NotesContoller notes_controller = go.GetComponent<NotesContoller>();
+             notes_controller.Pause();
+             Time.timeScale = 0;
+         }
+
+         GameInfo.NowGameStatus = GameInfo.GameStatus.Pause;
+        
+    }
+    public void ClosePause()
+    {
+        pause.SetActive(false);
+        GameObject go = GameObject.Find("SelectPaneru");
+        if (go != null)
+        {
+            NotesContoller notes_controller = go.GetComponent<NotesContoller>();
+            notes_controller.Resume();
+            Time.timeScale = 1;
+            pause_flag = false;
+        }
+        GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
+    }
     
 
+    // ゲーム中のオプション画面開閉
+    public void PushGameNowOption()
+    {
+        now_option.SetActive(true);
+    }
+    public void CloseGameNowOption()
+    {
+        now_option.SetActive(false);
+    }
 }

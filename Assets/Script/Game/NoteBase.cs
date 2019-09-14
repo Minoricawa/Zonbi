@@ -17,7 +17,7 @@ public class NoteBase : MonoBehaviour
     bool is_go_          = false;
     bool is_show_       = false;
 //    bool is_start_pos_  = false;
-//    bool is_die_ = false;
+    bool is_die_ = false;
     float go_time_       = 0.0f;
     int pre_time_       = 500;
     Timer pre_timer_    = null;
@@ -31,11 +31,6 @@ public class NoteBase : MonoBehaviour
     bool is_miss_ = false;
 
     // 以下プロパティ定義.
-    void StartNotes()
-    {
-        is_go_ = true;
-    }
-
     public void SetParameter(float timing)
     {
         timing_ = timing;
@@ -50,8 +45,15 @@ public class NoteBase : MonoBehaviour
     {
         set { miss_callback_ = value; }
     }
-    
 
+
+
+
+    void StartNotes()
+    {
+        is_go_ = true;
+    }
+    
     void OnEnable()
     {
         is_go_ = false;
@@ -60,33 +62,65 @@ public class NoteBase : MonoBehaviour
         note_ = GetComponent<Animator>();
         audio_source_ = GetComponent<AudioSource>();
 
-
+        Vector3 targetPoint = GameObject.Find("TargetPoint").transform.localPosition;
+        
         
         // オブジェクト配置
         this.UpdateAsObservable()
             .Where(_ => is_go_)
-            //.Where(_ => !is_die_)
-            .Where(_ => 0 <= now_z_)
+            .Where(_ => !is_die_)
+            //.Where(_ => 0 <= now_z_)
             .Subscribe(_ => {
 
+                // 時間の割合
                 float time_ratio = (Time.time * 1000 - go_time_) / during_;
-                float rot_y = this.gameObject.transform.localRotation.eulerAngles.y - 180;
-                float radian2 = GetAim(new Vector2(-3, 0), new Vector2(this.transform.localPosition.z, this.transform.localPosition.x));
-                
-                rot_y = radian2;
-                float radius = distance_ * time_ratio;
-                double radian = rot_y * Math.PI / 180;
-                var x = Math.Sin(radian) * radius;
-                var z = Math.Cos(radian) * radius;
-                
-                this.gameObject.transform.localPosition = new Vector3(first_pos_.x - (float)x, first_pos_.y, first_pos_.z - (float)z);
+                // 残り時間（ミリ秒）
+                float remaining_time = during_ - Time.time * 1000 - go_time_;
 
-                now_pos_ = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, this.transform.localPosition.z);
-                now_z_ = now_pos_.z;
+                // 角度
+                float radian2 = GetAim(targetPoint, new Vector2(this.transform.localPosition.z, this.transform.localPosition.x));
+                if (time_ratio < 0.1)
+                {
+                    this.gameObject.transform.localRotation = Quaternion.Euler(0, radian2 - 180, 0);
+                }
                 
+                // 位置
+                Vector3 move = Vector3.Lerp(start_pos_, targetPoint, time_ratio * 0.9f);
+                if (time_ratio < 1.05f)
+                {
+                    this.gameObject.transform.localPosition = move;
+                }
+
+                // 「MISS」とログ、自身を消す
+                if (time_ratio > 1.1f)
+                {
+                    Debug.Log("MISS!!!!!!!!!!!!!!!!!");
+                    this.gameObject.SetActive(false);
+                    if (miss_callback_ != null) miss_callback_();
+                }
+
+                // 時間によりマテリアル変更
+                if (remaining_time > 0.95f && time_ratio < 1.05f)
+                {
+                    MaterialChange(Color.white);
+                }
+                else if (time_ratio > 0.8f && time_ratio < 1.0f)
+                {
+                    MaterialChange(Color.red);
+                }
+                else if (time_ratio > 0.6f && time_ratio < 1.0f)
+                {
+                    MaterialChange(Color.blue);
+                }
+                else if (time_ratio > 1.05f)
+                {
+                    MaterialChange(Color.clear);
+                }
+
+
             });
 
-
+        /*
         // beat_pointでとどまらせる
         this.UpdateAsObservable()
             .Where(_ => now_z_ < 0)
@@ -95,9 +129,11 @@ public class NoteBase : MonoBehaviour
                 this.gameObject.transform.localPosition = new Vector3(now_pos_.x, now_pos_.y, now_pos_.z);
                 frame_++;
             });
+            */
 
+        /*
         var cnt = 0;
-
+        
         //「MISS」とログ、自身を消す
         this.UpdateAsObservable()
             .Where(_ => !is_miss_)
@@ -111,7 +147,9 @@ public class NoteBase : MonoBehaviour
                 Debug.Log("MISS");
                 if (miss_callback_ != null) miss_callback_();
             });
+            */
 
+        /*
         // 時間によりマテリアル変更
         this.UpdateAsObservable()
             .Where(_ => Time.time * 1000 - go_time_ > 0.7 * 1000)
@@ -131,6 +169,7 @@ public class NoteBase : MonoBehaviour
             {
                 MaterialChange(Color.white);
             });
+            */
     }
     
     // p2からp1への角度を求める
@@ -177,7 +216,7 @@ public class NoteBase : MonoBehaviour
     void Show()
     {
         is_show_ = true;
-        start_pos_ = first_pos_;
+        start_pos_ = this.gameObject.transform.localPosition;
 
         transform.localPosition = new Vector3(start_pos_.x, 6, start_pos_.z);
     }
@@ -194,7 +233,8 @@ public class NoteBase : MonoBehaviour
             if (y < start_pos_.y)
             {
                 y = start_pos_.y;
-              //  is_start_pos_ = true;
+                //  is_start_pos_ = true;
+                is_show_ = false;
             }
             transform.localPosition = new Vector3(start_pos_.x, y, start_pos_.z);
         }
@@ -209,10 +249,11 @@ public class NoteBase : MonoBehaviour
     // 倒れるアニメーション＆音声再生、自身を破壊
     IEnumerator DaiAnim()
     {
+        is_die_ = true;
         note_.SetBool("dai", true);
         audio_source_.Play();
 
-      //  is_die_ = true;
+      //  
 
         //1.0秒待つ
         yield return new WaitForSeconds(0.5f);
