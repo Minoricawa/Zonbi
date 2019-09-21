@@ -14,8 +14,9 @@ public class NotesContoller : MonoBehaviour
     [SerializeField] Transform spawn_point = null;
     [SerializeField] Transform beat_point = null;
     [SerializeField] Transform lean_center = null;
-    [SerializeField] Transform lean_left = null;
-    [SerializeField] Transform lean_right = null;
+    [SerializeField] Transform target_ = null;
+  //  [SerializeField] Transform lean_left = null;
+  //  [SerializeField] Transform lean_right = null;
 
     // 以下静的メンバ変数定義.
     // static string log = null;
@@ -32,7 +33,7 @@ public class NotesContoller : MonoBehaviour
     bool is_playing = false;    
     AudioSource music;    
     List<float> note_timings = new List<float>();
-    float check_range = 0;
+ //   float check_range = 0;
     float beat_range = 0;
     System.Action miss_callback_ = null;
     System.Action<string> timing_callback_ = null;
@@ -43,7 +44,6 @@ public class NotesContoller : MonoBehaviour
     int combo = 0;
     int max_combo = 0;
     int score = 0;
-    bool hit = false;
     int notes_number = 0;
     GameObject hit_note_ = null;
 
@@ -117,12 +117,11 @@ public class NotesContoller : MonoBehaviour
     public void Resume()
     {
         music.Play();
+        
     }
 
     void OnEnable()
     {
-        hit = false;
-
         LoadMusicListJson();
 
         music = this.GetComponent<AudioSource>();
@@ -131,8 +130,8 @@ public class NotesContoller : MonoBehaviour
         during = 3 * 1000;  // かかる時間
         is_playing = false;
         go_index = 0;
-        check_range = 110;
-        beat_range = 50;
+     //   check_range = 110;
+        beat_range = 70;
 
 
         // ノーツを出現
@@ -143,7 +142,7 @@ public class NotesContoller : MonoBehaviour
             .Where(_ => GameInfo.NowGameStatus == GameInfo.GameStatus.Play)
             .Subscribe(_ => {
                 NotesShow(notes_list[go_index]);
-                notes_list[go_index].GetComponent<NoteBase>().Go(distance, during, go_index);
+                notes_list[go_index].GetComponent<NoteBase>().Go(distance, during, go_index, target_.localPosition);
                 go_index++;
             });
 
@@ -179,18 +178,7 @@ public class NotesContoller : MonoBehaviour
                 Beat(Time.time * 1000 - play_time);
             });
         */
-
-        /*
-        // プレイ中、ノーツに当たったタイムを見る
-        this.UpdateAsObservable()
-            .Where(_ => is_playing)
-            .Where(_ => hit)
-            .Subscribe(_ =>
-            {
-                BeatHit(Time.time * 1000 - play_time, notes_number);
-                hit = false;
-            });
-            */
+        
     }
     
     // 曲のリストのjsonをロード
@@ -229,12 +217,14 @@ public class NotesContoller : MonoBehaviour
         note_timings = new List<float>();
 
         System.Random r = new System.Random();
+        int cnt = 0;
         foreach (var note in json["notes"])
         {
             float timing = float.Parse(note["timing"].Get<string>());
             GameObject notes;
             float xrandam = (float)r.Next(-20, 20) / 10; // ブレ幅
             notes = Instantiate(zombie_notes, new Vector3(spawn_point.localPosition.x + xrandam, spawn_point.localPosition.y, spawn_point.localPosition.z), Quaternion.Euler(0, 180, 0));
+            notes.name = "zombe" + cnt;
             SetLean(notes, note["lean"].Get<string>());
             notes.GetComponent<NoteBase>().SetParameter(timing);
             notes.GetComponent<NoteBase>().MissCallback = OnMiss;
@@ -244,6 +234,7 @@ public class NotesContoller : MonoBehaviour
             NotesHide(notes);
 
             note_timings.Add(timing);
+            cnt++;
         }
 
     }
@@ -259,6 +250,7 @@ public class NotesContoller : MonoBehaviour
         }
     }
 
+ 
     // ミスをした場合の処理
     void OnMiss()
     {
@@ -403,13 +395,11 @@ public class NotesContoller : MonoBehaviour
         }
     }
 
-
+    // 当たったノーツの番号を送る
     public void Hit()
     {
-        
         notes_number = notes_list.IndexOf(hit_note_);
         notes_list[notes_number].SendMessage("OnHitBullet");
         BeatHit(Time.time * 1000 - play_time, notes_number);
-        hit = true;
     }
 }

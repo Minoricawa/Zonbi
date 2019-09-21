@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Controller : MonoBehaviour
 {
-    [SerializeField] LineRenderer beam;
+    [SerializeField] LineRenderer beam = null;
     public GameObject reticle = null;
 
     public SteamVR_Input_Sources hand;

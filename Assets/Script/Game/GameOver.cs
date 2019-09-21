@@ -44,6 +44,7 @@ public class GameOver : MonoBehaviour
         
     }
 
+    // ゲームオーバー中
     public void Show()
     {
         if (is_show) return;
@@ -51,6 +52,7 @@ public class GameOver : MonoBehaviour
         StartCoroutine(GameOverCoroutine());
     }
 
+    // 同じ曲でもう一度プレイ
     public void Replay()
     {
         if (replay_callback != null) replay_callback();
@@ -60,6 +62,7 @@ public class GameOver : MonoBehaviour
         set.SetActive(true);
         point_light.SetActive(true);
         notes.SetActive(true);
+        play_ui.SetActive(true);
     }
 
     // 体力0になるとゲームオーバー画面へ
@@ -67,7 +70,7 @@ public class GameOver : MonoBehaviour
     {
         black_out.SetActive(true);
 
-        yield return new WaitForSeconds(2.8f);
+        yield return new WaitForSeconds(1.0f);
         gameover.SetActive(true);
         if (gameover_callback != null) gameover_callback();
         set.SetActive(false);
@@ -76,9 +79,5 @@ public class GameOver : MonoBehaviour
         black_out.SetActive(false);
         play_ui.SetActive(false);
     }
-
     
-
-
-
 }

@@ -16,11 +16,11 @@ public class GameUI : MonoBehaviour
     [SerializeField] GameOver game_over = null;
     [SerializeField] GameObject now_option = null;
     [SerializeField] GameObject pause = null;
+    [SerializeField] GameObject select_paneru = null;
 
 
     // 以下メンバ変数定義.
     // string ui_log = null;
-    bool pause_flag = false;
 
     // 以下プロパティ.
     public System.Action GameoverCallback
@@ -42,21 +42,32 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
-        pause_flag = false;
         pause.SetActive(false);
         now_option.SetActive(false);
     }
     
     void Update()
     {
-        if (SteamVR_Actions.default_Teleport.GetStateDown(SteamVR_Input_Sources.Any))
+        /*
+        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Play && SteamVR_Actions.default_Teleport.GetStateDown(SteamVR_Input_Sources.Any))
         {
             PushPause();
         }
-        if (SteamVR_Actions.default_Teleport.GetStateUp(SteamVR_Input_Sources.Any))
+            
+        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause && SteamVR_Actions.default_Teleport.GetStateDown(SteamVR_Input_Sources.Any))
         {
             ClosePause();
         }
+        */
+
+        if (!pause.activeSelf)
+        {
+            if (SteamVR_Actions.default_Teleport.GetStateDown(SteamVR_Input_Sources.Any))
+            {
+                PushPause();
+            }
+        }
+        
     }
 
     // 初期設定
@@ -129,14 +140,11 @@ public class GameUI : MonoBehaviour
     // ポーズ画面開閉
     public void PushPause()
     {
-         pause_flag = true;
-        
-         pause.SetActive(true);
-
-         GameObject go = GameObject.Find("SelectPaneru");
-         if (go != null)
+        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause) return;
+         pause.SetActive(true);        
+         if (select_paneru != null)
          {
-             NotesContoller notes_controller = go.GetComponent<NotesContoller>();
+             NotesContoller notes_controller = select_paneru.GetComponent<NotesContoller>();
              notes_controller.Pause();
              Time.timeScale = 0;
          }
@@ -147,13 +155,11 @@ public class GameUI : MonoBehaviour
     public void ClosePause()
     {
         pause.SetActive(false);
-        GameObject go = GameObject.Find("SelectPaneru");
-        if (go != null)
+        if (select_paneru != null)
         {
-            NotesContoller notes_controller = go.GetComponent<NotesContoller>();
+            NotesContoller notes_controller = select_paneru.GetComponent<NotesContoller>();
             notes_controller.Resume();
             Time.timeScale = 1;
-            pause_flag = false;
         }
         GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
     }

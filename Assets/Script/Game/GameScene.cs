@@ -9,9 +9,10 @@ public class GameScene : MonoBehaviour
     [SerializeField] NotesContoller notes_controller = null;
     [SerializeField] Select select = null;
     //  [SerializeField] Transition transition = null;
-    [SerializeField] GameObject fadein_black = null;
+  //  [SerializeField] GameObject fadein_black = null;
     [SerializeField] LaserController laser_controllerL = null;
     [SerializeField] LaserController laser_controllerR = null;
+ //   [SerializeField] NoteBase note_base = null;
 
     // 以下メンバ変数定義.
     int id_ = 0;
@@ -35,17 +36,18 @@ public class GameScene : MonoBehaviour
         //  transition.RetryCallback = OnRetry;
         
         // fadein_black.SetActive(true);
-        StartCoroutine("DeleteFadeIn");
+      //  StartCoroutine("DeleteFadeIn");
     }
 
-
+    /*
     IEnumerator DeleteFadeIn()
     {
         yield return new WaitForSeconds(1.8f);
         fadein_black.SetActive(false);
     }
+    */
 
-
+    // ノーツに当たればHit
     void OnHitL()
     {
         notes_controller.HitNote = laser_controllerL.HitNote;
@@ -146,8 +148,8 @@ public class GameScene : MonoBehaviour
         }
 
         PlayerPrefs.Save();
-        
         select.UpdateScore();
+        GameInfo.NowGameStatus = GameInfo.GameStatus.Select;
     }
 
     
