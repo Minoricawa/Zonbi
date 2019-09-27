@@ -9,33 +9,34 @@ public class Option : MonoBehaviour
     // 以下メンバ変数定義(SerializeField).
    // [SerializeField] Text speed = null;
    // [SerializeField] Text buki = null;
-    [SerializeField] int sp = 0;
+  //  [SerializeField] int sp = 0;
     [SerializeField] AudioMixer mixer = null;
-    [SerializeField] Image button_lr = null;
-    [SerializeField] Image button_ud = null;
+    //[SerializeField] Image button_lr = null;
+    // [SerializeField] Image button_ud = null;
+    [SerializeField] GameObject camera_rig = null;
 
     // 以下静的メンバ変数定義.
-    static public bool eyes_lr = false;
-    static public bool eyes_ud = false;
+  //  static public bool eyes_lr = false;
+  //  static public bool eyes_ud = false;
 
     // 以下メンバ変数定義.
   //  string te = "";
   //  bool buki_ = false;
     
     // 以下プロパティ.
-    public int Sp
+ /*   public int Sp
     {
         get { return sp; }
     }
-    
+*/    
 
 
     void Start()
     {
       //  sp = 5;
       //  buki_ = true;
-        eyes_lr = true;
-        eyes_ud = true;
+     //   eyes_lr = true;
+      //  eyes_ud = true;
     }
 
     /*
@@ -70,7 +71,7 @@ public class Option : MonoBehaviour
     }
     */
 
-
+   /*
     //視点左右反転
     public void EyesLR()
     {
@@ -100,7 +101,7 @@ public class Option : MonoBehaviour
             button_ud.color = new Color(255f / 255f, 255f / 255f, 255f / 255f);
         }
     }
-
+    */
 
     //BGM音量調節
     public void BGMVolume(float bgmValue)
@@ -129,4 +130,42 @@ public class Option : MonoBehaviour
         }
     }
     */
+
+    // カメラの位置変更
+    public void XUp()
+    {
+        Vector3 pos = camera_rig.transform.position;
+        pos.x += 0.2f;
+        camera_rig.transform.position = pos;
+    }
+    public void XDown()
+    {
+        Vector3 pos = camera_rig.transform.position;
+        pos.x -= 0.2f;
+        camera_rig.transform.position = pos;
+    }
+    public void YUp()
+    {
+        Vector3 pos = camera_rig.transform.position;
+        pos.y += 0.2f;
+        camera_rig.transform.position = pos;
+    }
+    public void YDown()
+    {
+        Vector3 pos = camera_rig.transform.position;
+        pos.y -= 0.2f;
+        camera_rig.transform.position = pos;
+    }
+    public void ZUp()
+    {
+        Vector3 pos = camera_rig.transform.position;
+        pos.z += 0.2f;
+        camera_rig.transform.position = pos;
+    }
+    public void ZDown()
+    {
+        Vector3 pos = camera_rig.transform.position;
+        pos.z -= 0.2f;
+        camera_rig.transform.position = pos;
+    }
 }
