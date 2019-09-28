@@ -33,7 +33,7 @@ public class NotesContoller : MonoBehaviour
     bool is_playing = false;    
     AudioSource music;    
     List<float> note_timings = new List<float>();
- //   float check_range = 0;
+    float check_range = 0;
     float beat_range = 0;
     System.Action miss_callback_ = null;
     System.Action<string> timing_callback_ = null;
@@ -130,8 +130,8 @@ public class NotesContoller : MonoBehaviour
         during = 3 * 1000;  // かかる時間
         is_playing = false;
         go_index = 0;
-     //   check_range = 110;
-        beat_range = 70;
+        check_range = 500;
+        beat_range = 200;
 
 
         // ノーツを出現
@@ -386,13 +386,18 @@ public class NotesContoller : MonoBehaviour
         float diff = Math.Abs(note_timings[notes_number] - timing);　// 差
         if (diff < 0) diff *= -1;
 
-        if (diff < beat_range)
+        if (diff < check_range)
         {
-            OnGood();
-        } else
-        {
-            OnBad();
+            if (diff < beat_range)
+            {
+                OnGood();
+            }
+            else
+            {
+                OnBad();
+            }
         }
+        
     }
 
     // 当たったノーツの番号を送る

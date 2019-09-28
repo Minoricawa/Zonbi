@@ -81,13 +81,13 @@ public class NoteBase : MonoBehaviour
 
                 // 位置
                 Vector3 move = Vector3.Lerp(start_pos_, target_point_, time_ratio * 0.9f);
-                if (time_ratio < 1.05f)
+                if (time_ratio < 1.15f)
                 {
                     this.gameObject.transform.localPosition = move;
                 }
 
                 // 「MISS」とログ、自身を消す
-                if (time_ratio > 1.10f)
+                if (time_ratio > 1.20f)
                 {
                     Debug.Log("MISS!!!!!!!!!!!!!!!!!");
                     if (miss_callback_ != null) miss_callback_();
@@ -114,7 +114,7 @@ public class NoteBase : MonoBehaviour
                 }*/
 
                 // 時間によりマテリアル変更
-                if (time_ratio > 0.90f && time_ratio < 1.05f)
+                if (time_ratio > 0.95f && time_ratio < 1.10f)
                 {
                     MaterialChange(Color.white);
                 }
@@ -126,7 +126,7 @@ public class NoteBase : MonoBehaviour
                 {
                     MaterialChange(Color.blue);
                 }
-                else if (time_ratio > 1.05f)
+                else if (time_ratio > 1.10f)
                 {
                     MaterialChange(Color.clear);
                 }
@@ -284,7 +284,7 @@ public class NoteBase : MonoBehaviour
     // マテリアルの色変更
     public void MaterialChange(Color color)
     {
-        Debug.Log("MaterialChange");
+      //  Debug.Log("MaterialChange");
         Renderer[] renderers = this.GetComponentsInChildren<Renderer>();
         foreach(Renderer renderer in renderers)
         {

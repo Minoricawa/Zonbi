@@ -15,8 +15,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] NotesContoller notes_contoller = null;
     [SerializeField] GameOver game_over = null;
     [SerializeField] GameObject now_option = null;
-    [SerializeField] GameObject pause = null;
-    [SerializeField] GameObject select_paneru = null;
+    
 
 
     // 以下メンバ変数定義.
@@ -42,32 +41,13 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
-        pause.SetActive(false);
+     //   pause.SetActive(false);
         now_option.SetActive(false);
     }
     
     void Update()
     {
-        /*
-        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Play && SteamVR_Actions.default_Teleport.GetStateDown(SteamVR_Input_Sources.Any))
-        {
-            PushPause();
-        }
-            
-        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause && SteamVR_Actions.default_Teleport.GetStateDown(SteamVR_Input_Sources.Any))
-        {
-            ClosePause();
-        }
-        */
 
-        if (!pause.activeSelf)
-        {
-            if (SteamVR_Actions.default_Teleport.GetStateDown(SteamVR_Input_Sources.Any))
-            {
-                PushPause();
-            }
-        }
-        
     }
 
     // 初期設定
@@ -91,18 +71,22 @@ public class GameUI : MonoBehaviour
         {
             case "good":
                 timing_log.text = "GOOD!!";
+                timing_log.color = Color.yellow;
                 break;
 
             case "bad":
                 timing_log.text = "BAD!!";
+                timing_log.color = Color.blue;
                 break;
 
             case "miss":
                 timing_log.text = "MISS!!";
+                timing_log.color = Color.red;
                 break;
 
             default:
                 timing_log.text = "MISS!!";
+                timing_log.color = Color.red;
                 break;
         }
         
@@ -134,34 +118,6 @@ public class GameUI : MonoBehaviour
     public void ScoreText()
     {
         score_log.text = "Score:" + ((int)notes_contoller.Score).ToString("000000");
-    }
-
-
-    // ポーズ画面開閉
-    public void PushPause()
-    {
-        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause) return;
-         pause.SetActive(true);        
-         if (select_paneru != null)
-         {
-             NotesContoller notes_controller = select_paneru.GetComponent<NotesContoller>();
-             notes_controller.Pause();
-             Time.timeScale = 0;
-         }
-
-         GameInfo.NowGameStatus = GameInfo.GameStatus.Pause;
-        
-    }
-    public void ClosePause()
-    {
-        pause.SetActive(false);
-        if (select_paneru != null)
-        {
-            NotesContoller notes_controller = select_paneru.GetComponent<NotesContoller>();
-            notes_controller.Resume();
-            Time.timeScale = 1;
-        }
-        GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
     }
     
 
