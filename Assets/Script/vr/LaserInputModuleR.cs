@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using Valve.VR;
 
 
-public class LaserInputModule : BaseInputModule
+public class LaserInputModuleR : BaseInputModule
 {
-    
+
     [SerializeField] private Camera UICamera;
     [SerializeField] private GameObject CameraRig;
 
-    private LaserController[] lasers;
+    private LaserControllerR[] lasers;
 
     private GameObject[] hitObjects;
     private GameObject[] pressedObjects;
@@ -31,7 +31,7 @@ public class LaserInputModule : BaseInputModule
 
 
         // ヒエラルキーからコントローラーを取得
-        lasers = CameraRig.GetComponentsInChildren<LaserController>(true);
+        lasers = CameraRig.GetComponentsInChildren<LaserControllerR>(true);
 
         hitObjects = new GameObject[lasers.Length];
         pressedObjects = new GameObject[lasers.Length];
@@ -62,7 +62,7 @@ public class LaserInputModule : BaseInputModule
     //------------------------------------------------------------------------------------------------------------------------------------------//
     private bool GUIRaycast(int index)
     {
-        
+
 
         if (pointEvents[index] == null)
         {
@@ -73,7 +73,7 @@ public class LaserInputModule : BaseInputModule
             pointEvents[index].Reset();
         }
 
-        
+
 
         // UICameraのベクトルをレーザーと一致させる
         UICamera.transform.position = lasers[index].gameObject.transform.position;
@@ -201,19 +201,18 @@ public class LaserInputModule : BaseInputModule
         }
     }
 
-    public static bool test = false; 
+    public static bool test = false;
 
     //------------------------------------------------------------------------------------------------------------------------------------------//
     private bool IsPressDown(int index)
     {
         return SteamVR_Actions.default_InteractUI.GetStateDown(SteamVR_Input_Sources.Any);
-        /*
         return true;
-        
+
         Debug.LogFormat("IsPressDown {0}", test);
         return test;
         return SteamVR_Actions.default_Teleport.GetStateDown(HandType);
-        
+        /*
         var device = SteamVR_Controller.Input((int)lasers[index].gameObject.GetComponent<SteamVR_TrackedObject>().index);
         return device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger);
         */

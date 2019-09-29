@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 public class GameScene : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class GameScene : MonoBehaviour
     [SerializeField] Select select = null;
     //  [SerializeField] Transition transition = null;
   //  [SerializeField] GameObject fadein_black = null;
-    [SerializeField] LaserController laser_controllerL = null;
-    [SerializeField] LaserController laser_controllerR = null;
+    [SerializeField] LaserController laser_controller_l = null;
+    
+    [SerializeField] LaserController laser_controller_r = null;
+    [SerializeField] HandMenu hand_menu_l = null;
+    [SerializeField] HandMenu hand_menu_r = null;
  //   [SerializeField] NoteBase note_base = null;
 
     // 以下メンバ変数定義.
@@ -31,12 +35,18 @@ public class GameScene : MonoBehaviour
         select.SetPaneruCallback = OnSetPaneru;
         game_ui.GameoverCallback = OnGameOver;
         game_ui.ReplayCallback = OnReaplay;
-        laser_controllerL.HitCallback = OnHitL;
-        laser_controllerR.HitCallback = OnHitR;
+        laser_controller_l.HitCallback = OnHitL;
+        laser_controller_r.HitCallback = OnHitR;
+        hand_menu_l.PaneruOpenCallback = OnPaneruOpen;
+        hand_menu_r.PaneruOpenCallback = OnPaneruOpen;
+        hand_menu_l.PaneruCloseCallback = OnPaneruClose;
+        hand_menu_r.PaneruCloseCallback = OnPaneruClose;
         //  transition.RetryCallback = OnRetry;
-        
+
+
+
         // fadein_black.SetActive(true);
-      //  StartCoroutine("DeleteFadeIn");
+        //  StartCoroutine("DeleteFadeIn");
     }
 
     /*
@@ -47,15 +57,23 @@ public class GameScene : MonoBehaviour
     }
     */
 
+    void Update()
+    {
+
+     
+    }
+
+
+
     // ノーツに当たればHit
     void OnHitL()
     {
-        notes_controller.HitNote = laser_controllerL.HitNote;
+        notes_controller.HitNote = laser_controller_l.HitNote;
         notes_controller.Hit();
     }
     void OnHitR()
     {
-        notes_controller.HitNote = laser_controllerR.HitNote;
+        notes_controller.HitNote = laser_controller_r.HitNote;
         notes_controller.Hit();
     }
 
@@ -152,10 +170,22 @@ public class GameScene : MonoBehaviour
         GameInfo.NowGameStatus = GameInfo.GameStatus.Select;
     }
 
-    
-    // Update is called once per frame
-    void Update()
+
+    // オプションパネルを開く・閉じるときに、プレイ中であれば曲等を止める・流す
+    void OnPaneruOpen()
     {
-        
+        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause)
+        {
+            notes_controller.Pause();
+            Time.timeScale = 0;
+        }
+    }
+    void OnPaneruClose()
+    {
+        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause)
+        {
+            notes_controller.Resume();
+            Time.timeScale = 1;
+        }
     }
 }

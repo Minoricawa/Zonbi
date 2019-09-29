@@ -18,6 +18,7 @@ public class Player_Base : MonoBehaviour
     
     void Update()
     {
+        /*
         float Xrot = Input.GetAxis("Mouse X");
         float Yrot = Input.GetAxis("Mouse Y");
 
@@ -43,6 +44,6 @@ public class Player_Base : MonoBehaviour
             camera_.transform.Rotate(Yrot, 0, 0);
             camera_dai.transform.Rotate(0, -Xrot, 0);
         }
-        
+        */
     }
 }

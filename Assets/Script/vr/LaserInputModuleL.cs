@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using Valve.VR;
 
 
-public class LaserInputModule : BaseInputModule
+public class LaserInputModuleL : BaseInputModule
 {
     
     [SerializeField] private Camera UICamera;
     [SerializeField] private GameObject CameraRig;
 
-    private LaserController[] lasers;
+    private LaserControllerL[] lasers;
 
     private GameObject[] hitObjects;
     private GameObject[] pressedObjects;
@@ -31,7 +31,7 @@ public class LaserInputModule : BaseInputModule
 
 
         // ヒエラルキーからコントローラーを取得
-        lasers = CameraRig.GetComponentsInChildren<LaserController>(true);
+        lasers = CameraRig.GetComponentsInChildren<LaserControllerL>(true);
 
         hitObjects = new GameObject[lasers.Length];
         pressedObjects = new GameObject[lasers.Length];

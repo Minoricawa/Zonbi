@@ -14,6 +14,7 @@ public class Select : MonoBehaviour
     [SerializeField] GameObject paneru_container = null;
     [SerializeField] GameObject game_ui = null;
 
+
     // 以下メンバ変数定義.
     int max_rot = 180;  // パネルを配置する最大角度
     int sound_length;   // 曲数（パネル数）

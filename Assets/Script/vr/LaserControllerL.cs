@@ -13,8 +13,9 @@ public class LaserControllerL : MonoBehaviour
 {
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] AudioClip se = null;
-    [SerializeField] GameObject paneru_l = null;
+ //   [SerializeField] GameObject paneru_l = null;
     [SerializeField] LaserControllerR laser_controller_r = null;
+    [SerializeField] PopUp popup = null;
 
     // 以下公開メンバ変数定義.
     public float thickness = 0.002f;
@@ -67,7 +68,7 @@ public class LaserControllerL : MonoBehaviour
         ve = GetComponent<VelocityEstimator>();
         audio_source = GetComponent<AudioSource>();
 
-        paneru_l.SetActive(false);
+     //   paneru_l.SetActive(false);
         paneru_open_l = false;
 
         //レーザーポインタを作成する
@@ -85,14 +86,14 @@ public class LaserControllerL : MonoBehaviour
         laser.GetComponent<MeshRenderer>().material.color = laserColor;
         Object.DestroyImmediate(laser.GetComponent<BoxCollider>());
 
-        /*
+        
         cursor = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         cursor.transform.SetParent(transform, false);
         cursor.transform.localScale = new Vector3(cursorSize, cursorSize, cursorSize);
         cursor.transform.localPosition = new Vector3(0.0f, 0.0f, 2.0f);
         cursor.GetComponent<MeshRenderer>().material.color = laserColor;
         Object.DestroyImmediate(cursor.GetComponent<SphereCollider>());
-        */
+        
     }
 
     public void AdjustLaserDistance(float distance)
@@ -104,7 +105,7 @@ public class LaserControllerL : MonoBehaviour
         //レーザーの長さを調整
         laser.transform.localScale = new Vector3(thickness, thickness, distance);
         laser.transform.localPosition = new Vector3(0.0f, 0.0f, distance * 0.5f);
-        //   cursor.transform.localPosition = new Vector3(0.0f, 0.0f, distance);
+           cursor.transform.localPosition = new Vector3(0.0f, 0.0f, distance);
     }
 
 
@@ -151,9 +152,9 @@ public class LaserControllerL : MonoBehaviour
     // 音を鳴らす
     void Swing()
     {
-        Debug.LogFormat("Swing1");
+      //  Debug.LogFormat("Swing1");
         if (audio_source.isPlaying) return;
-        Debug.LogFormat("Swing2");
+      //  Debug.LogFormat("Swing2");
         audio_source.PlayOneShot(se);
 
         //sXRSettings.enabled = false;
@@ -182,7 +183,8 @@ public class LaserControllerL : MonoBehaviour
 
         if (paneru_open_l) return;
         paneru_open_l = true;
-        paneru_l.SetActive(true);
+        //  paneru_l.SetActive(true);
+        popup.Open();
         if (GameInfo.NowGameStatus == GameInfo.GameStatus.Play) GameInfo.NowGameStatus = GameInfo.GameStatus.Pause;
         if (paneru_open_callback != null) paneru_open_callback();
     }
@@ -200,7 +202,8 @@ public class LaserControllerL : MonoBehaviour
         */
 
         paneru_open_l = false;
-        paneru_l.SetActive(false);
+        //  paneru_l.SetActive(false);
+        popup.Close();
         if (paneru_close_callback != null) paneru_close_callback();
         if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause) GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
     }

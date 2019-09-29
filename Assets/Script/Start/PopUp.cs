@@ -8,7 +8,7 @@ public class PopUp : MonoBehaviour
     [SerializeField] GameObject pop_up = null;
     [SerializeField] GameObject options = null;
     [SerializeField] AudioClip se = null;
-    [SerializeField] GameObject pause = null;
+  //  [SerializeField] GameObject pause = null;
   //  [SerializeField] GameObject now_option = null;
 
     // 以下メンバ変数定義.
@@ -19,7 +19,7 @@ public class PopUp : MonoBehaviour
     {
         pop_up.SetActive(false);
         options.SetActive(false);
-        pause.SetActive(false);
+     //   pause.SetActive(false);
     //    now_option.SetActive(false);
         audio_source = GetComponent<AudioSource>();
     }
