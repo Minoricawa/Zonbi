@@ -19,30 +19,17 @@ public class HandMenu : MonoBehaviour
         Hidden
     }
 
-
+    // 以下メンバ変数定義(SerializeField).
     [SerializeField] PopUp popup = null;
+
+    // 以下メンバ変数定義.
     bool paneru_open_l = false;
-    System.Action paneru_open_callback = null;
-    System.Action paneru_close_callback = null;
+    
 
     public SteamVR_Input_Sources HandType;
 
-    // 以下プロパティ.
-    public System.Action PaneruOpenCallback
-    {
-        get { return paneru_open_callback; }
-        set { paneru_open_callback = value; }
-    }
-    public System.Action PaneruCloseCallback
-    {
-        get { return paneru_close_callback; }
-        set { paneru_close_callback = value; }
-    }
-    public bool PaneruOpenL
-    {
-        get { return paneru_open_l; }
-    }
-
+    
+   
     private void Start()
     {
         paneru_open_l = false;
@@ -64,7 +51,7 @@ public class HandMenu : MonoBehaviour
                 {
                     CloseMenu();
                 }
-                else if (HandMenuState == HandMenuStateList.RightOpen && HandType == SteamVR_Input_Sources.RightHand)// 左のメニューが開いていて、かつ自分が左手だったら
+                else if (HandMenuState == HandMenuStateList.RightOpen && HandType == SteamVR_Input_Sources.RightHand)// 右のメニューが開いていて、かつ自分が右手だったら
                 {
                     CloseMenu();
                 }
@@ -100,8 +87,8 @@ public class HandMenu : MonoBehaviour
 
         //  paneru_l.SetActive(true);
         popup.Open();
-        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Play) GameInfo.NowGameStatus = GameInfo.GameStatus.Pause;
-        if (paneru_open_callback != null) paneru_open_callback();
+        
+        
     }
     public void CloseMenu()
     {
@@ -119,7 +106,7 @@ public class HandMenu : MonoBehaviour
         HandMenuState = HandMenuStateList.Hidden;
 
         popup.Close();
-        if (paneru_close_callback != null) paneru_close_callback();
-        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause) GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
+        
+        
     }
 }

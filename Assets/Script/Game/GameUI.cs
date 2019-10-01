@@ -14,7 +14,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] Text score_log = null;    
     [SerializeField] NotesContoller notes_contoller = null;
     [SerializeField] GameOver game_over = null;
-    [SerializeField] GameObject now_option = null;
+ //   [SerializeField] GameObject now_option = null;
     
 
 
@@ -42,7 +42,7 @@ public class GameUI : MonoBehaviour
     void Start()
     {
      //   pause.SetActive(false);
-        now_option.SetActive(false);
+      //  now_option.SetActive(false);
     }
     
     void Update()
@@ -120,7 +120,7 @@ public class GameUI : MonoBehaviour
         score_log.text = "Score:" + ((int)notes_contoller.Score).ToString("000000");
     }
     
-
+    /*
     // ゲーム中のオプション画面開閉
     public void PushGameNowOption()
     {
@@ -130,4 +130,5 @@ public class GameUI : MonoBehaviour
     {
         now_option.SetActive(false);
     }
+    */
 }

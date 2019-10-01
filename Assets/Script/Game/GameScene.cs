@@ -14,8 +14,10 @@ public class GameScene : MonoBehaviour
     [SerializeField] LaserController laser_controller_l = null;
     
     [SerializeField] LaserController laser_controller_r = null;
-    [SerializeField] HandMenu hand_menu_l = null;
-    [SerializeField] HandMenu hand_menu_r = null;
+    //   [SerializeField] HandMenu hand_menu_l = null;
+    //  [SerializeField] HandMenu hand_menu_r = null;
+    [SerializeField] PopUp pop_up_l = null;
+    [SerializeField] PopUp pop_up_r = null;
  //   [SerializeField] NoteBase note_base = null;
 
     // 以下メンバ変数定義.
@@ -37,10 +39,16 @@ public class GameScene : MonoBehaviour
         game_ui.ReplayCallback = OnReaplay;
         laser_controller_l.HitCallback = OnHitL;
         laser_controller_r.HitCallback = OnHitR;
+        /*
         hand_menu_l.PaneruOpenCallback = OnPaneruOpen;
         hand_menu_r.PaneruOpenCallback = OnPaneruOpen;
         hand_menu_l.PaneruCloseCallback = OnPaneruClose;
         hand_menu_r.PaneruCloseCallback = OnPaneruClose;
+        */
+        pop_up_l.PaneruOpenCallback = OnPaneruOpen;
+        pop_up_l.PaneruCloseCallback = OnPaneruClose;
+        pop_up_r.PaneruOpenCallback = OnPaneruOpen;
+        pop_up_r.PaneruCloseCallback = OnPaneruClose;
         //  transition.RetryCallback = OnRetry;
 
 
