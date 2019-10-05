@@ -33,11 +33,13 @@ public class PopUp : MonoBehaviour
 
     void Start()
     {
-        pop_up.SetActive(false);
+        audio_source = GetComponent<AudioSource>();
         options.SetActive(false);
+        pop_up.SetActive(false);
+        
      //   pause.SetActive(false);
     //    now_option.SetActive(false);
-        audio_source = GetComponent<AudioSource>();
+        
     }
 
     void Update()

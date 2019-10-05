@@ -10,6 +10,7 @@ public class Select : MonoBehaviour
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] List<Paneru> sound_paneru_list = new List<Paneru>();    // パネルの配列
     [SerializeField] Camera cam = null;
+    [SerializeField] GameObject camera_rig = null;
     [SerializeField] Canvas canvas = null;
     [SerializeField] GameObject paneru_container = null;
     [SerializeField] GameObject game_ui = null;
@@ -64,6 +65,7 @@ public class Select : MonoBehaviour
         sound_length = sound_paneru_list.Count;
         SetPosition();
         game_ui.SetActive(false);
+        SetCameraPosition();
     }
 
     private void Update() // 毎フレーム実行
@@ -191,8 +193,19 @@ public class Select : MonoBehaviour
             paneru.transform.localRotation = Quaternion.Euler(0, rot * i - 60, 0);
         }
     }
-    
-    
+
+    // カメラの初期位置を設定
+    void SetCameraPosition()
+    {
+        // 位置調整のデータがあれば
+        if(PlayerPrefs.GetFloat("camera_pos_x") !=0 || PlayerPrefs.GetFloat("camera_pos_y") != 0 || PlayerPrefs.GetFloat("camera_pos_z") != 0)
+        {
+            Vector3 pos = new Vector3(PlayerPrefs.GetFloat("camera_pos_x"), PlayerPrefs.GetFloat("camera_pos_y"), PlayerPrefs.GetFloat("camera_pos_z"));
+            camera_rig.transform.localPosition = pos;
+        }
+    }
+
+
 
     // クリックしたパネルのidをプレイ、ゲームUI表示
     public void ClickPaneru(int id)

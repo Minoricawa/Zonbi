@@ -62,7 +62,7 @@ public class LaserInputModule : BaseInputModule
     //------------------------------------------------------------------------------------------------------------------------------------------//
     private bool GUIRaycast(int index)
     {
-        
+        if (pointEvents == null) return false;
 
         if (pointEvents[index] == null)
         {

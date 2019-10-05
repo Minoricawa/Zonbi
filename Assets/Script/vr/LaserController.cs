@@ -24,6 +24,8 @@ public class LaserController : MonoBehaviour
     public Color laserColor = new Color(1, 1, 0);
     public SteamVR_Input_Sources HandType;
 
+    int start_cnt = 0;
+
     // 以下メンバ変数定義.
     protected GameObject laser;
     protected GameObject cursor;
@@ -46,6 +48,7 @@ public class LaserController : MonoBehaviour
 
     void Start()
     {
+        start_cnt = 60;
         ve = GetComponent<VelocityEstimator>();
         audio_source = GetComponent<AudioSource>();
 
@@ -94,8 +97,9 @@ public class LaserController : MonoBehaviour
 
     void Update()
     {
-        
 
+        start_cnt--;
+        if (start_cnt > 0) return;//最初の１秒は音を鳴らさない
 
 
 
