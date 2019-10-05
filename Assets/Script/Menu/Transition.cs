@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Transition : MonoBehaviour
 {
-    // 以下メンバ変数定義(SerializeField).
-    //  [SerializeField] Select select_ = null;
-
     // 以下メンバ変数定義.
     int id_ = 0;
     System.Action retry_callback = null;
@@ -55,16 +52,7 @@ public class Transition : MonoBehaviour
     // ゲーム終了
     public void GameExit()
     {
-        //UnityEditor.EditorApplication.isPlaying = false;
         Application.Quit();
     }
-
-    /*
-    // 選択した曲をリトライ
-    public void Retry(int id)
-    {
-       if (retry_callback != null) retry_callback(id);
-    }
-    */
     
 }

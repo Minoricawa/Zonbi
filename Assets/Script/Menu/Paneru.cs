@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class Paneru : MonoBehaviour
 {
-    // 以下公開メンバ変数定義.
-    public int id;
-
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] AudioSource audio_souce = null;
     [SerializeField] Text author_text = null;
@@ -16,6 +13,10 @@ public class Paneru : MonoBehaviour
     [SerializeField] Image image = null;
     [SerializeField] Text max_combo_text = null;
     [SerializeField] Text max_score_text = null;
+
+
+    // 以下公開メンバ変数定義.
+    public int id;
 
     // 以下メンバ変数定義.
     CanvasGroup canvas = null;

@@ -64,18 +64,6 @@ public class HandMenu : MonoBehaviour
     // ポーズ画面開閉
     public void OpenMenu()
     {
-        /*
-        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause) return;
-        paneru_l.SetActive(true);
-        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Play && select_paneru != null)
-        {
-            NotesContoller notes_controller = select_paneru.GetComponent<NotesContoller>();
-            notes_controller.Pause();
-            Time.timeScale = 0;
-        }
-        GameInfo.NowGameStatus = GameInfo.GameStatus.Pause;
-        */
-
         // ステータス更新
         if(HandType== SteamVR_Input_Sources.LeftHand)
         {
@@ -87,26 +75,12 @@ public class HandMenu : MonoBehaviour
 
         //  paneru_l.SetActive(true);
         popup.Open();
-        
-        
     }
     public void CloseMenu()
     {
-        /*
-        paneru_l.SetActive(false);
-        if (GameInfo.NowGameStatus == GameInfo.GameStatus.Pause && select_paneru != null)
-        {
-            NotesContoller notes_controller = select_paneru.GetComponent<NotesContoller>();
-            notes_controller.Resume();
-            Time.timeScale = 1;
-        }
-        GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
-        */
         // ステータス更新
         HandMenuState = HandMenuStateList.Hidden;
 
         popup.Close();
-        
-        
     }
 }

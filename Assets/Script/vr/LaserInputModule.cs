@@ -20,8 +20,8 @@ public class LaserInputModule : BaseInputModule
     private PointerEventData[] pointEvents;
 
     public SteamVR_Input_Sources HandType;
+    
 
-    //------------------------------------------------------------------------------------------------------------------------------------------//
     protected override void Start()
     {
 
@@ -41,9 +41,6 @@ public class LaserInputModule : BaseInputModule
 
     void SetUICamera()
     {
-        // GUI-Raycast用のCameraを作成
-        //UICamera = GameObject.Find("UICamera").GetComponent<Camera>();
-        //DontDestroyOnLoad(UICamera);
         UICamera.fieldOfView = 5;
         UICamera.nearClipPlane = 0.01f;
         UICamera.stereoTargetEye = StereoTargetEyeMask.None;
@@ -58,8 +55,8 @@ public class LaserInputModule : BaseInputModule
             canvas.worldCamera = UICamera;
         }
     }
+    
 
-    //------------------------------------------------------------------------------------------------------------------------------------------//
     private bool GUIRaycast(int index)
     {
         if (pointEvents == null) return false;
@@ -202,8 +199,8 @@ public class LaserInputModule : BaseInputModule
     }
 
     public static bool test = false; 
+    
 
-    //------------------------------------------------------------------------------------------------------------------------------------------//
     private bool IsPressDown(int index)
     {
         return SteamVR_Actions.default_InteractUI.GetStateDown(SteamVR_Input_Sources.Any);

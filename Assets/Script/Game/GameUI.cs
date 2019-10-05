@@ -14,13 +14,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] Text score_log = null;    
     [SerializeField] NotesContoller notes_contoller = null;
     [SerializeField] GameOver game_over = null;
- //   [SerializeField] GameObject now_option = null;
     
-
-
-    // 以下メンバ変数定義.
-    // string ui_log = null;
-
+    
     // 以下プロパティ.
     public System.Action GameoverCallback
     {
@@ -31,18 +26,13 @@ public class GameUI : MonoBehaviour
     {
         set { game_over.ReplayCallback = value; }
     }
-
-
- //   var trackedObject = GetComponent<SteamVR_TrackedObject>();
- //   var device = SteamVR_Controller.Input((int)trackedObject.index);
-
+    
 
 
 
     void Start()
     {
-     //   pause.SetActive(false);
-      //  now_option.SetActive(false);
+
     }
     
     void Update()
@@ -119,16 +109,4 @@ public class GameUI : MonoBehaviour
     {
         score_log.text = "Score:" + ((int)notes_contoller.Score).ToString("000000");
     }
-    
-    /*
-    // ゲーム中のオプション画面開閉
-    public void PushGameNowOption()
-    {
-        now_option.SetActive(true);
-    }
-    public void CloseGameNowOption()
-    {
-        now_option.SetActive(false);
-    }
-    */
 }

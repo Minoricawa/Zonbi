@@ -15,12 +15,7 @@ public class NotesContoller : MonoBehaviour
     [SerializeField] Transform beat_point = null;
     [SerializeField] Transform lean_center = null;
     [SerializeField] Transform target_ = null;
-  //  [SerializeField] Transform lean_left = null;
-  //  [SerializeField] Transform lean_right = null;
-
-    // 以下静的メンバ変数定義.
-    // static string log = null;
-
+    
     // 以下メンバ変数定義.
     int id_ = 0;
     string title = null;
@@ -159,25 +154,6 @@ public class NotesContoller : MonoBehaviour
                     music_finish_callback_();
                 }
             });
-
-        /*
-        // プレイ中、ボタンを押したタイムを見る
-        this.UpdateAsObservable()
-            .Where(_ => is_playing)
-            .Where(_ => Input.GetMouseButtonDown(0))
-            .Where(_ => GameInfo.NowGameStatus==GameInfo.GameStatus.Play)
-            .Subscribe(_ => {
-                Beat(Time.time * 1000 - play_time);
-            });
-
-        this.UpdateAsObservable()
-            .Where(_ => is_playing)
-            .Where(_ => Input.GetMouseButtonDown(1))
-            .Where(_ => GameInfo.NowGameStatus == GameInfo.GameStatus.Play)
-            .Subscribe(_ => {
-                Beat(Time.time * 1000 - play_time);
-            });
-        */
         
     }
     
@@ -211,7 +187,6 @@ public class NotesContoller : MonoBehaviour
         string json_text = Resources.Load<TextAsset>(json_file).ToString();
         JsonNode json = JsonNode.Parse(json_text);
         title = json["title"].Get<string>();
-        //    BPM = int.Parse(json["BPM"].Get<string>());
         end = float.Parse(json["end"].Get<string>());
 
         note_timings = new List<float>();
@@ -258,6 +233,7 @@ public class NotesContoller : MonoBehaviour
         Debug.Log("NotesContoller OnMiss");
         if (miss_callback_ != null) miss_callback_();
         if (timing_callback_ != null) timing_callback_("miss");
+        
     }
 
     // Goodの場合の処理
@@ -337,48 +313,7 @@ public class NotesContoller : MonoBehaviour
     {
         notes.transform.localPosition = new Vector3(notes.transform.localPosition.x, -1000, notes.transform.localPosition.z);
     }
-
-
-    /*
-    // timingと一番近いタイミングのノーツを探す
-    void Beat(float timing)
-    {
-        float minDiff = -1;
-        int minDiffIndex = -1;
-
-        for (int i = 0; i < note_timings.Count; i++)
-        {
-            if (note_timings[i] > 0)
-            {
-                float diff = Math.Abs(note_timings[i] - timing);
-
-                if (minDiff == -1 || minDiff > diff)
-                {
-                    minDiff = diff;
-                    minDiffIndex = i;
-                }
-            }
-        }
-
-        if (minDiff != -1 & minDiff < check_range)
-        {
-            if (minDiff < beat_range)
-            {
-                note_timings[minDiffIndex] = -1;
-                notes_list[minDiffIndex].SendMessage("OnHitBullet");  // NotesBase.OnHitBullet();
-                Debug.Log("GOOD");
-                OnGood();
-            }
-            else
-            {
-                note_timings[minDiffIndex] = -1;
-                notes_list[minDiffIndex].SendMessage("OnHitBullet");
-                Debug.Log("BAD");
-                OnBad();
-            }
-        }
-    }
-    */
+    
 
     // timingと当たったノーツtimingとの差を見る
     void BeatHit(float timing, int notes_number)

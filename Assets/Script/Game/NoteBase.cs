@@ -16,14 +16,11 @@ public class NoteBase : MonoBehaviour
     Vector3 now_pos_;
     bool is_go_          = false;
     bool is_show_       = false;
-//    bool is_start_pos_  = false;
     bool is_die_ = false;
     float go_time_       = 0.0f;
     int pre_time_       = 500;
     Timer pre_timer_    = null;
-    Vector3 start_pos_   = Vector3.zero;    
- //   float now_z_         = 0;
- //   float frame_         = 0;
+    Vector3 start_pos_   = Vector3.zero;
     Animator note_ = null;
     AudioSource audio_source_ = null;
     int id_ = 0;
@@ -64,7 +61,6 @@ public class NoteBase : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => is_go_)
             .Where(_ => !is_die_)
-            //.Where(_ => 0 <= now_z_)
             .Subscribe(_ => {
 
                 // 時間の割合
@@ -94,25 +90,6 @@ public class NoteBase : MonoBehaviour
                     this.gameObject.SetActive(false);
                 }
 
-                /*
-                // 時間によりマテリアル変更
-                if (remaining_time > 0.75f && time_ratio < 1.05f)
-                {
-                    MaterialChange(Color.white);
-                }
-                else if (time_ratio > 0.45f && time_ratio < 1.0f)
-                {
-                    MaterialChange(Color.red);
-                }
-                else if (time_ratio > 0.15f && time_ratio < 1.0f)
-                {
-                    MaterialChange(Color.blue);
-                }
-                else if (time_ratio > 1.05f)
-                {
-                    MaterialChange(Color.clear);
-                }*/
-
                 // 時間によりマテリアル変更
                 if (time_ratio > 0.95f && time_ratio < 1.10f)
                 {
@@ -130,60 +107,9 @@ public class NoteBase : MonoBehaviour
                 {
                     MaterialChange(Color.clear);
                 }
-
-
+                
             });
-
-        /*
-        // beat_pointでとどまらせる
-        this.UpdateAsObservable()
-            .Where(_ => now_z_ < 0)
-            .Where(_=> frame_ <= 59)
-            .Subscribe(_=> {
-                this.gameObject.transform.localPosition = new Vector3(now_pos_.x, now_pos_.y, now_pos_.z);
-                frame_++;
-            });
-            */
-
-        /*
-        var cnt = 0;
         
-        //「MISS」とログ、自身を消す
-        this.UpdateAsObservable()
-            .Where(_ => !is_miss_)
-            .Where(_ => frame_ == 60)
-            .Subscribe(_ =>
-            {
-                cnt++;
-                Debug.LogFormat("cnt {0}", cnt);
-                is_miss_ = true;
-                this.gameObject.SetActive(false);
-                Debug.Log("MISS");
-                if (miss_callback_ != null) miss_callback_();
-            });
-            */
-
-        /*
-        // 時間によりマテリアル変更
-        this.UpdateAsObservable()
-            .Where(_ => Time.time * 1000 - go_time_ > 0.7 * 1000)
-            .Subscribe(_ =>
-            {
-                MaterialChange(Color.blue);
-            });
-        this.UpdateAsObservable()
-            .Where(_ => Time.time * 1000 - go_time_ > 1.7 * 1000)
-            .Subscribe(_ =>
-            {
-                MaterialChange(Color.red);
-            });
-        this.UpdateAsObservable()
-            .Where(_ => Time.time * 1000 - go_time_ > 2.7 * 1000)
-            .Subscribe(_ =>
-            {
-                MaterialChange(Color.white);
-            });
-            */
     }
 
 
@@ -211,9 +137,7 @@ public class NoteBase : MonoBehaviour
         distance_ = distance;
         during_ = during;
         go_time_ = Time.time * 1000 + pre_time_;
-
-      //  Debug.LogFormat("id {0} ", id);
-
+        
         pre_timer_ = new Timer(pre_time_);
 
         // Elapsedイベントにタイマー発生時の処理を設定する
@@ -252,7 +176,6 @@ public class NoteBase : MonoBehaviour
             if (y < start_pos_.y)
             {
                 y = start_pos_.y;
-                //  is_start_pos_ = true;
                 is_show_ = false;
             }
             transform.localPosition = new Vector3(start_pos_.x, y, start_pos_.z);
@@ -271,12 +194,9 @@ public class NoteBase : MonoBehaviour
         is_die_ = true;
         note_.SetBool("dai", true);
         audio_source_.Play();
-
-      //  
-
+    
         //1.0秒待つ
         yield return new WaitForSeconds(1.0f);
-
         this.gameObject.SetActive(false);
     }
 
@@ -284,7 +204,6 @@ public class NoteBase : MonoBehaviour
     // マテリアルの色変更
     public void MaterialChange(Color color)
     {
-      //  Debug.Log("MaterialChange");
         Renderer[] renderers = this.GetComponentsInChildren<Renderer>();
         foreach(Renderer renderer in renderers)
         {
