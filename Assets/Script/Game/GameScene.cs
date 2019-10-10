@@ -63,7 +63,6 @@ public class GameScene : MonoBehaviour
     // ミスをした場合の処理
     void OnMiss()
     {
-        Debug.Log("GameScene OnMiss");
         game_ui.Damage();
         game_ui.ComboText();
     }
@@ -90,11 +89,6 @@ public class GameScene : MonoBehaviour
         game_ui.gameObject.SetActive(true);
         game_ui.SetUp(select.GetMusicTitle(id));
         GameInfo.NowGameStatus = GameInfo.GameStatus.Play;
-
-        Debug.Log("OnSetPaneru");
-        Debug.Log(game_ui.gameObject);
-        Debug.Log(game_ui.gameObject.activeSelf);
-
     }
     
 

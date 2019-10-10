@@ -230,7 +230,6 @@ public class NotesContoller : MonoBehaviour
     void OnMiss()
     {
         combo = 0;
-        Debug.Log("NotesContoller OnMiss");
         if (miss_callback_ != null) miss_callback_();
         if (timing_callback_ != null) timing_callback_("miss");
         

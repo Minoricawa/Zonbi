@@ -85,7 +85,6 @@ public class NoteBase : MonoBehaviour
                 // 「MISS」とログ、自身を消す
                 if (time_ratio > 1.20f)
                 {
-                    Debug.Log("MISS!!!!!!!!!!!!!!!!!");
                     if (miss_callback_ != null) miss_callback_();
                     this.gameObject.SetActive(false);
                 }

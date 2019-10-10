@@ -96,7 +96,6 @@ public class GameUI : MonoBehaviour
     // HPバーを減らす
     public void Damage()
     {
-        Debug.LogFormat("hp_slider.value {0}", hp_slider.value);
         hp_slider.value = hp_slider.value - 0.1f;
         if (hp_slider.value <= 0)
         {

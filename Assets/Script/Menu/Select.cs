@@ -212,7 +212,6 @@ public class Select : MonoBehaviour
     {
         HidePaneruList();
         if (set_paneru_callback != null) set_paneru_callback(id);
-        Debug.Log(id);
     }
 
     bool up_flg_ = false;
