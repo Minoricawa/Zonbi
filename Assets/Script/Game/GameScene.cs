@@ -9,8 +9,8 @@ public class GameScene : MonoBehaviour
     [SerializeField] GameUI game_ui = null;
     [SerializeField] NotesContoller notes_controller = null;
     [SerializeField] Select select = null;
-    [SerializeField] LaserController laser_controller_l = null;
-    [SerializeField] LaserController laser_controller_r = null;
+    [SerializeField] Attack attack_l = null;
+    [SerializeField] Attack attack_r = null;
     [SerializeField] PopUp pop_up_l = null;
     [SerializeField] PopUp pop_up_r = null;
 
@@ -31,8 +31,8 @@ public class GameScene : MonoBehaviour
         select.SetPaneruCallback = OnSetPaneru;
         game_ui.GameoverCallback = OnGameOver;
         game_ui.ReplayCallback = OnReaplay;
-        laser_controller_l.HitCallback = OnHitL;
-        laser_controller_r.HitCallback = OnHitR;
+        attack_l.HitCallback = OnHitL;
+        attack_r.HitCallback = OnHitR;
         pop_up_l.PaneruOpenCallback = OnPaneruOpen;
         pop_up_l.PaneruCloseCallback = OnPaneruClose;
         pop_up_r.PaneruOpenCallback = OnPaneruOpen;
@@ -51,12 +51,12 @@ public class GameScene : MonoBehaviour
     // ノーツに当たればHit
     void OnHitL()
     {
-        notes_controller.HitNote = laser_controller_l.HitNote;
+        notes_controller.HitNote = attack_l.HitNote;
         notes_controller.Hit();
     }
     void OnHitR()
     {
-        notes_controller.HitNote = laser_controller_r.HitNote;
+        notes_controller.HitNote = attack_r.HitNote;
         notes_controller.Hit();
     }
 
