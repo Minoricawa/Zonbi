@@ -22,17 +22,14 @@ public class HandMenu : MonoBehaviour
     // 以下メンバ変数定義(SerializeField).
     [SerializeField] PopUp popup = null;
 
-    // 以下メンバ変数定義.
-    bool paneru_open_l = false;
-    
-
+    // 以下公開メンバ変数定義.
     public SteamVR_Input_Sources HandType;
 
     
    
     private void Start()
     {
-        paneru_open_l = false;
+
     }
 
 
@@ -72,8 +69,7 @@ public class HandMenu : MonoBehaviour
         {
             HandMenuState = HandMenuStateList.RightOpen;
         }
-
-        //  paneru_l.SetActive(true);
+        
         popup.Open();
     }
     public void CloseMenu()
