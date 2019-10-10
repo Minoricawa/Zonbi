@@ -25,15 +25,15 @@ public class HandMenu : MonoBehaviour
     // 以下公開メンバ変数定義.
     public SteamVR_Input_Sources HandType;
 
-    
+
    
-    private void Start()
+    void Start()
     {
 
     }
 
 
-    private void Update()
+    void Update()
     {
         // メニューボタンを押すとメニュー開閉
         if (GameInfo.NowGameStatus != GameInfo.GameStatus.GamgeOver)
@@ -43,8 +43,8 @@ public class HandMenu : MonoBehaviour
                 if (HandMenuState == HandMenuStateList.Hidden)//何も開いてないとき
                 {
                     OpenMenu();
-                    
-                } else if(HandMenuState == HandMenuStateList.LeftOpen && HandType == SteamVR_Input_Sources.LeftHand)// 左のメニューが開いていて、かつ自分が左手だったら
+                }
+                else if(HandMenuState == HandMenuStateList.LeftOpen && HandType == SteamVR_Input_Sources.LeftHand)// 左のメニューが開いていて、かつ自分が左手だったら
                 {
                     CloseMenu();
                 }
@@ -52,9 +52,7 @@ public class HandMenu : MonoBehaviour
                 {
                     CloseMenu();
                 }
-                
             }
-            
         }
     }
 
@@ -65,7 +63,8 @@ public class HandMenu : MonoBehaviour
         if(HandType== SteamVR_Input_Sources.LeftHand)
         {
             HandMenuState = HandMenuStateList.LeftOpen;
-        } else
+        }
+        else
         {
             HandMenuState = HandMenuStateList.RightOpen;
         }

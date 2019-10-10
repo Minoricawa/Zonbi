@@ -210,8 +210,11 @@ public class Select : MonoBehaviour
     // クリックしたパネルのidをプレイ、ゲームUI表示
     public void ClickPaneru(int id)
     {
-        HidePaneruList();
-        if (set_paneru_callback != null) set_paneru_callback(id);
+        if (HandMenu.HandMenuState == HandMenu.HandMenuStateList.Hidden)
+        {
+            HidePaneruList();
+            if (set_paneru_callback != null) set_paneru_callback(id);
+        }
     }
 
     bool up_flg_ = false;
